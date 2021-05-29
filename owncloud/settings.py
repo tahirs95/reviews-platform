@@ -118,9 +118,9 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = DEFAULT_FROM_EMAIL = 'xitemailsmtp@gmail.com'
-EMAIL_HOST_PASSWORD = '@1234567abc'
-EMAIL_SUBJECT_PREFIX = 'The File Sharing Platform'
+EMAIL_HOST_USER = DEFAULT_FROM_EMAIL = <<>>
+EMAIL_HOST_PASSWORD = <<>>
+EMAIL_SUBJECT_PREFIX = <<>>
 
 
 # All auth settings
