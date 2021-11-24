@@ -1,0 +1,44 @@
+.about-cover{
+    min-height: 400px;
+    background-image: url("https://images.unsplash.com/photo-1472148439583-1f4cf81b80e0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1031&q=80");
+    background-size:     cover;                      /* <------ */
+    background-repeat:   no-repeat;
+    background-position: center center;
+}
+.carousel-inner{
+    width:100%;
+    max-height: 400px !important;
+    border: 5px solid #B30E16;
+  }
+
+
+.service {
+text-align: center;
+padding: 25px 10px;
+border-radius: 5px;
+font-size: 14px;
+cursor: pointer;
+background: transparent;
+transition: transform 0.5s, background 0.5s;
+}
+
+.service i {
+font-size: 40px;
+margin-bottom: 10px;
+color: #B30E16;
+}
+
+.service h2 {
+font-weight: 600;
+margin-bottom: 8px;
+}
+
+.service:hover {
+background: #B30E16;
+color: #fff;
+transform: scale(1.05);
+}
+
+.service:hover i {
+color: #fff;
+}
