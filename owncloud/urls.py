@@ -7,5 +7,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include("allauth.urls")),
     # custom apps
-    path("", include("users.urls")),
+    path('', include("vimbiso.urls")),
 ]

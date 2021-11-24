@@ -1,0 +1,120 @@
+{% extends 'vimbiso/base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Vimbiso - Plans </title>
+{% endblock title %}
+
+{% block content %}
+<style>
+.card{
+    min-width:inherit !important;
+    min-height:572px;
+}
+.card-btn{
+    position:absolute;
+    bottom:10px;
+}
+</style>
+<div class="container-fluid">
+        <div class="row p-5 d-flex justify-content-center">
+            <div class="col-12 mb-5 pb-3">
+                <span class="d-flex justify-content-center plans-cover-text"><b>Plans & Pricing</b></span>
+                <span class="d-flex justify-content-center plans-cover-text-2">Find the right plan for you</span>
+                <br>
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col-4">
+                <div class="card card1 border-white">
+                    <div class="card-body">
+                        <div class="card-header">
+                            <h5 class="card-title">Free Plan</h5>
+                            <h5 class="card-title">$0</h5>
+                            <br>
+                            <p class="pb-3 text-white">Engage with customers and show ratings.</p>
+                        </div>
+                        <div class="list-item list1">
+                            <div class="item">
+                                <input type="checkbox" checked>
+                                <label for="">Claim your business profile page</label>
+                            </div>
+                            <div class="item">
+                                <input type="checkbox" checked>
+                                <label for="">Invite customer reviews </label>
+                            </div>
+                        </div>
+                        <br>
+                        <a href="#" class="card-link btn btn-primary card-btn">Let's Talk</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="card card2">
+                    <div class="card-body">
+                        <div class="card-header">
+                            <h5 class="card-title">Standard Plan</h5>
+                            <span class="text-white"><strong>From</strong></span>
+                            <h5 class="card-title mt-1">
+                            $200 <blockquote class="text-white pl-2" style="display:inline-block"><p><strong>per month</strong><br> Paid annually</p></blockquote>
+                            </h5>
+                            <p class="text-white pb-3">Showcase full reviews in your marketing.</p>
+                        </div>
+                        <div class="list-item">
+                            <div class="item">
+                                <input type="checkbox" checked>
+                                <label for="">Claim your business profile page</label>
+                            </div>
+                            <div class="item">
+                                <input type="checkbox" checked>
+                                <label for="">Invite customer reviews </label>
+                            </div>
+                            <div class="item">
+                                <input type="checkbox" checked>
+                                <label for="">Respond to reviews</label>
+                            </div>
+                        </div>
+                        <br>
+                        <a href="#" class="card-link btn btn-primary card-btn">Let's Talk</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="card card3">
+                    <div class="card-body">
+                        <div class="card-header">
+                            <h5 class="card-title">Premium Plan</h5>
+                            <span class="text-white"><strong>From</strong></span>
+                            <h5 class="card-title mt-1">
+                            $500 <blockquote class="text-white pl-2" style="display:inline-block"><p><strong>per month</strong><br> Paid annually</p></blockquote>
+                            </h5>
+                            <p class="text-white pb-3">Showcase full verfied reviews <i class="fas fa-check-circle text-white"></i> in your marketing.</p>
+                        </div>
+                        <div class="list-item">
+                            <div class="item">
+                                <input type="checkbox" checked>
+                                <label for="">Claim your business profile page </label>
+                            </div>
+                            <div class="item">
+                                <input type="checkbox" checked>
+                                <label for="">Invite customer reviews</label>
+                            </div>
+                            <div class="item">
+                                <input type="checkbox" checked>
+                                <label for="">Respond to reviews</label>
+                            </div>
+                            <div class="item">
+                                <input type="checkbox" checked>
+                                <label for="">All reviews verified </label>
+                            </div>
+                        </div>
+                        <br>
+                        <a href="#" class="card-link btn btn-primary card-btn">Let's Talk</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock content %}

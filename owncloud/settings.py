@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'users',
+    'vimbiso'
 ]
 
 MIDDLEWARE = [
@@ -115,12 +116,12 @@ AUTHENTICATION_BACKENDS = [
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 # https://docs.djangoproject.com/en/2.2/ref/settings/#email-timeout
 #EMAIL_TIMEOUT = 5
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = DEFAULT_FROM_EMAIL = <<>>
-EMAIL_HOST_PASSWORD = <<>>
-EMAIL_SUBJECT_PREFIX = <<>>
+# EMAIL_USE_TLS = True
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = DEFAULT_FROM_EMAIL = <<>>
+# EMAIL_HOST_PASSWORD = <<>>
+# EMAIL_SUBJECT_PREFIX = <<>>
 
 
 # All auth settings

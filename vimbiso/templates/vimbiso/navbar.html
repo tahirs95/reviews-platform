@@ -1,0 +1,41 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-light bg-white pl-5 pr-5">
+    <a class="navbar-brand" href="{% url 'vimbiso:index' %}"><img src="{% static 'images/logo-no-bg-2.png' %}" class="logo"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            
+        </ul>
+        <div class="form-inline my-2 my-lg-0">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="about.html">About us</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'vimbiso:categories' %}">Categories</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'vimbiso:plans' %}">For Businesses</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Contact us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="accounts/login">Log in</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'vimbiso:business' %}">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn metallic-red-bg" data-toggle="modal" data-target="#exampleModalCenter">
+                    Give a review
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
