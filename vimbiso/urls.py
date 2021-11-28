@@ -9,6 +9,7 @@ urlpatterns = [
     path('categories', categories, name='categories'),
     path('plans', plans, name='plans'),
     path('business', business, name='business'),
+    path('aboutus', aboutus, name='aboutus'),
 ]
 
 if settings.DEBUG: 

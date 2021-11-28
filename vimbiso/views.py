@@ -17,3 +17,5 @@ def plans(request):
 def business(request):
     return render(request,'vimbiso/business_profile.html')
 
+def aboutus(request):
+    return render(request,'vimbiso/aboutus.html')
