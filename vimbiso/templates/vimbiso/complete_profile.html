@@ -1,0 +1,127 @@
+{% extends 'vimbiso/home.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Vimbiso - Profile</title>
+{% endblock title %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/review.css' %}"> 
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+{% endblock head %}
+
+{% block content %}
+
+
+<div class="container-fluid">
+    <form method="POST" action="{% url 'vimbiso:business' %}" enctype="multipart/form-data" class="row d-flex justify-content-center">
+        <h2 class="col-12 text-center p-3 metallic-red"><strong>Business Account</strong></h2>
+        {% csrf_token %}
+        <div class="col-lg-5 col-sm-6">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Company Image</label>
+                <input type="file" accept="image/*" class="form-control" id="company-image" name="company-image" required>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Tell brief description of your work</label>
+                <textarea class="form-control" id="description" name="description" required></textarea>
+            </div>
+            <div class="form-group form-inline">
+                <label for="tag" class="col-12 p-0 justify-content-start">Add Tags</label>
+                <div class="tags col-12">
+                    <input type="text" class="form-control w-75 mt-3 mr-3 mb-3" name="tag" placeholder="Enter tag"><button class="btn btn-success tag-btn" onclick="addTags()">+</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5 col-sm-6">
+            <div class="form-group">
+                <label class="w-100 d-flex justify-content-start">Category</label>
+                <select class="form-control" name="categories[]" required>
+                    <option value="">Select Categories</option>
+                    {% for c in categories %}
+                        <option value="{{c.id}}">{{c}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="w-100 d-flex justify-content-start">Add More Categories in the list</label>
+                <button type="button" class="btn btn-success bg-success text-white" data-toggle="modal" data-target="#exampleModal">Add</button>
+            </div>
+        </div>
+        <div class="flex-row col-sm-12 col-lg-12">
+            <div class="form-group text-center">
+                <button type="submit" class="btn metallic-red-bg text-center">Save</button>
+            </div>
+
+        </div>
+    </form>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header metallic-red-bg">
+                <h5 class="modal-title text-white" id="exampleModalLabel">Add category</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" id="category_form">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="exampleFormControlFile1">Name</label>
+                        <input type="text" class="form-control" id="category_name" placeholder="" required>
+                    </div>
+                    <div class="form-group">
+                    <label for="exampleFormControlFile1">Parent</label>
+                       <select class="form-control" id="category_parent">
+                        <option value="" selected>Select Parent</option>
+                        {% for c in categories %}
+                            <option value="{{c.id}}">{{c.name}}</option>
+                        {% endfor %}
+                        </select>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% comment %} <script>
+    $('#categories').select2();
+</script> {% endcomment %}
+<script>
+
+    function addTags(){
+        $('.tag-btn').remove();
+        $('.tags').append('<input type="text" class="form-control w-75 mt-3 mr-3 mb-3" name="tag" placeholder="Enter tag"><button class="btn btn-success tag-btn" onclick="addTags()">+</button>');
+    };
+
+    $("#category_form").on('submit', function(event) {
+        event.preventDefault();
+        var name1 = $("#category_name").val();
+        var parent1 = $("#category_parent").val();
+        console.log(parent1);
+        console.log(name1);
+        $.ajax({
+            type: "POST",
+            url: "/addcategory/",
+            data:{
+                'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+                  name:name1,
+                  parent:parent1
+            },
+            success: function(data) {
+              if (data['success']){
+                alert("Category created successfully. Kindly reload page to see the updated table")
+              }
+            }
+        }); 
+        });
+
+</script>
+{% endblock %}

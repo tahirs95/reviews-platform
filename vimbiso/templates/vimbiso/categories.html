@@ -12,13 +12,18 @@
 }
 </style>
 <div class="container-fluid m-0 p-0">
-        <h1 class="bg-white flex-row d-flex justify-content-center ml-0 mr-0 pt-2 pb-2"><strong>Find companies by category</strong></h1>
         
-        <div class="d-flex">
+        <div class="d-flex pt-4 mt-3">
             <div class="align-items-start flex-column col-3 mb-3 bg-white ml-5" style="height: auto;">
-                <div class="justiy-content-center text-center">
-                    <h4 class="mb-2 mt-2 pr-3"><strong>View Category</strong></h4>
-                    <p>Animals & Pets</p>
+                <div class="justiy-content-center text-center" style="border:3px solid var(--red);border-radius:10px">
+                    <h4 class="p-3" style="background-color:var(--red);color:white">Categories</h4>
+                    {% for c in categories %}
+                        {% if not c.parent %}
+                        <p>{{c.name}}</p>
+                        <hr>
+                        {% endif %}
+                    {% endfor %}
+                    {% comment %} <p>Animals & Pets</p>
                     <p>Beauty & Well-being</p>
                     <p>Business Services</p>
                     <p>Construction & Manufacturing</p>
@@ -29,94 +34,25 @@
                     <p>Health & Medical</p>
                     <p>Hobbies & Crafts</p>
                     <p>Home & Garden</p>
-                    <p>Home Services</p>
+                    <p>Home Services</p> {% endcomment %}
                 </div>
             </div>
 
             <div class="align-items-end flex-column col-8 mb-3 bg-white ml-5" style="height: auto;">
                 <div class="d-flex row p-3 border-bottom">
-                    <div class="d-flex justify-content-start col-4 align-items-center">
-                        <div class="flex-column justify-content-center">
-                            <h4><strong>Animals & Pets</strong></h4>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-center col-4">
-                        <div class="flex-column">
-                            <p>Animals & Pets</p>
-                            <p>Beauty & Well-being</p>
-                            <p>Business Services</p>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-end col-4">
-                        <div class="flex-column">
-                            <p>Animals & Pets</p>
-                            <p>Beauty & Well-being</p>
-                            <p>Business Services</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="d-flex row p-3 border-bottom">
-                    <div class="d-flex justify-content-start col-4 align-items-center">
-                        <div class="flex-column justify-content-center">
-                            <h4><strong>Beauty & Well-being</strong></h4>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-center col-4">
-                        <div class="flex-column">
-                            <p>Animals & Pets</p>
-                            <p>Beauty & Well-being</p>
-                            <p>Business Services</p>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-end col-4">
-                        <div class="flex-column">
-                            <p>Animals & Pets</p>
-                            <p>Beauty & Well-being</p>
-                            <p>Business Services</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="d-flex row p-3 border-bottom">
-                    <div class="d-flex justify-content-start col-4 align-items-center">
-                        <div class="flex-column justify-content-center">
-                            <h4><strong>Business Services</strong></h4>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-center col-4">
-                        <div class="flex-column">
-                            <p>Animals & Pets</p>
-                            <p>Beauty & Well-being</p>
-                            <p>Business Services</p>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-end col-4">
-                        <div class="flex-column">
-                            <p>Animals & Pets</p>
-                            <p>Beauty & Well-being</p>
-                            <p>Business Services</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="d-flex row p-3 border-bottom">
-                    <div class="d-flex justify-content-start col-4 align-items-center">
-                        <div class="flex-column justify-content-center">
-                            <h4><strong>Construction & Manufacturing</strong></h4>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-center col-4">
-                        <div class="flex-column">
-                            <p>Animals & Pets</p>
-                            <p>Beauty & Well-being</p>
-                            <p>Business Services</p>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-end col-4">
-                        <div class="flex-column">
-                            <p>Animals & Pets</p>
-                            <p>Beauty & Well-being</p>
-                            <p>Business Services</p>
-                        </div>
-                    </div>
+                    {% for c in categories %}
+                        {% if not c.parent %}
+                            <div class="d-flex justify-content-center col-12 align-items-center border-bottom">
+                                    <h4><strong>{{c.name}}</strong></h4>
+                            </div>
+                        {% else %}
+                                <div class="col-lg-4 col-sm-4 p-2">
+                                    <p class="text-center btn" style="border:2px solid var(--red);border-radius:12px">{{c.name}}</p>
+                                </div>
+                        {% endif %}
+                    {% endfor %}
+                    
+                    
                 </div>
             </div>
 

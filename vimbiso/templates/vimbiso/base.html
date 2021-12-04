@@ -11,7 +11,11 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/style.css' %}"> 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/> 
+    
     {% block head %}{% endblock head %}
   </head>
 
@@ -36,53 +40,60 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form>
+                <form action="{% url 'vimbiso:addReview' %}" method="POST">
+                    {% csrf_token %}
                     <div class="form-group">
                         <label for="exampleInputEmail1">Email or WhatsApp number</label>
-                        <input type="email" class="form-control" id="revie" aria-describedby="emailHelp" placeholder="Enter Email or WhatsApp number">
+                        <input type="text" class="form-control" name="contact" aria-describedby="emailHelp" placeholder="Enter Email or WhatsApp number" required>
                         <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Your name</label>
-                        <input type="text" class="form-control" id="reveiwer-name" placeholder="Your name">
+                        <input type="text" class="form-control" id="reveiwer-name" name="name" placeholder="Your name" required>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Company name</label>
-                        <input type="text" class="form-control" id="company-name" placeholder="Company name">
+                        <select class="form-control" name="company">
+                            <option value="">Select Company</option>
+                            {% for i in company %}
+                            <option value="{{i.id}}">{{i.username}}</option>
+                            {% endfor %}
+                          </select>
                     </div>
                     <div class="form-group d-flex flex-row">
                         <div class="col-6 p-0 pr-3">
                             <label for="exampleInputPassword1">Product or service purchased</label>
-                            <input type="text" class="form-control" id="company-name" placeholder="Enter Product or service name">
+                            <input type="text" class="form-control" name="purchased-item" placeholder="Enter Product or service name" required>
                         </div>
                         <div class="col-6 ml-2">
                             <label for="exampleInputPassword1">Purchase/Encounter</label>
-                            <input type="number" class="form-control" id="rating" placeholder="">
+                            <input type="number" class="form-control" id="rating" name="item-counter" placeholder="" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Date of purchase</label>
-                        <input type="date" class="form-control" id="company-name" >
+                        <input type="date" class="form-control" name="date"  required>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Branch location</label>
-                        <input type="text" class="form-control" id="company-name" placeholder="Enter branch location">
+                        <input type="text" class="form-control" name="branch" placeholder="Enter branch location"  required>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Your review</label>
-                        <textarea type="text" class="form-control" id="review"></textarea>
+                        <textarea type="text" class="form-control" name="review"  required></textarea>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Ratings</label>
-                        <input type="number" step="0.1" max="5" class="form-control" id="rating" placeholder="/5">
+                        <input type="number" step="0.1" max="5" class="form-control" name="rating" placeholder="/5"  required>
                     </div>
                     <!-- <div class="Stars" style="--rating: 5;" aria-label="Rating of this product is 2.3 out of 5."> -->
-                </form>
+                
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn metallic-red-bg">Save changes</button>
+                <button type="Submit" class="btn metallic-red-bg">Add Review</button>
             </div>
+        </form>
             </div>
         </div>
     </div>
@@ -201,11 +212,12 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!-- UIkit JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.3/js/uikit.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.3/js/uikit-icons.min.js"></script>
+
+    {% block js %}{% endblock js %}
   </body>
 </html>

@@ -9,7 +9,7 @@
 <style>
 .card{
     min-width:inherit !important;
-    min-height:572px;
+    min-height:675px;
 }
 .card-btn{
     position:absolute;
@@ -45,7 +45,7 @@
                             </div>
                         </div>
                         <br>
-                        <a href="#" class="card-link btn btn-primary card-btn">Let's Talk</a>
+                        <a href="#" class="card-link btn btn-primary card-btn">Subscribe</a>
                     </div>
                 </div>
             </div>
@@ -75,7 +75,7 @@
                             </div>
                         </div>
                         <br>
-                        <a href="#" class="card-link btn btn-primary card-btn">Let's Talk</a>
+                        <button type="button" onclick="submitForm('price_1K2lRWB4k1y3jDV83UeeKMY3');" class="card-link btn btn-primary card-btn">Subscribe</button>
                     </div>
                 </div>
             </div>
@@ -109,12 +109,28 @@
                             </div>
                         </div>
                         <br>
-                        <a href="#" class="card-link btn btn-primary card-btn">Let's Talk</a>
+                        <button type="button" onclick="submitForm('price_1K2lRqB4k1y3jDV8MCSrIfMw');" class="card-link btn btn-primary card-btn">Subscribe</button>
                     </div>
                 </div>
             </div>
         </div>
 
     </div>
+    <form action="{% url 'vimbiso:subscribe' %}" method="POST" id="subscribe_form" style="hidden">
+        {% csrf_token %}
+        <input type="text" name="price-id" id="price-id" hidden>
+    </form>
 
+    <script>
+        function submitForm(id){
+            $('#price-id').val(id);
+            if ($('#price-id').val()){
+                $('#subscribe_form').submit();
+            }
+            else{
+                console.log('No input field found!');
+            }
+            
+        }
+    </script>
 {% endblock content %}

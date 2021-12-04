@@ -225,6 +225,16 @@
                 </div>
             </div>
         </div>
+        
     </div>
-
+    <!-- Review messages -->
+    <script>
+        '{% if messages %}'
+            '{% if "!" in messages %}'
+                '{% for message in messages %}'
+                    alert({{ message }});
+                '{% endfor %}'
+            '{% endif %}'
+        '{% endif %}'
+    </script>
 {% endblock content %}

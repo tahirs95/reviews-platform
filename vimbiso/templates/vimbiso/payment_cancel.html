@@ -1,0 +1,239 @@
+{% extends 'vimbiso/base.html' %}
+{% load static %}
+
+{% block title %}
+<title>Vimbiso - Cancelled </title>
+{% endblock title %}
+
+{% block content %}
+<style>
+    .checkmark__circle {
+        stroke-dasharray: 166;
+        stroke-dashoffset: 166;
+        stroke-width: 2;
+        stroke-miterlimit: 10;
+        stroke: #7ac142;
+        fill: none;
+        animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+      }
+      
+      .checkmark {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        display: block;
+        stroke-width: 2;
+        stroke: #fff;
+        stroke-miterlimit: 10;
+        margin: 10% auto;
+        box-shadow: inset 0px 0px 0px #7ac142;
+        animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+      }
+      
+      .checkmark__check.animateElement {
+        transform-origin: 50% 50%;
+        stroke-dasharray: 48;
+        stroke-dashoffset: 48;
+        animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+      }
+      
+      @keyframes stroke {
+        100% {
+          stroke-dashoffset: 0;
+        }
+      }
+      @keyframes scale {
+        0%, 100% {
+          transform: none;
+        }
+        50% {
+          transform: scale3d(1.1, 1.1, 1);
+        }
+      }
+      @keyframes fill {
+        100% {
+          box-shadow: inset 0px 0px 0px 30px #7ac142;
+        }
+        
+      }
+      
+      
+      .crossmark__circle.animateElement {
+        stroke-dasharray: 166;
+        stroke-dashoffset: 166;
+        stroke-width: 2;
+        stroke-miterlimit: 10;
+        stroke: #ff0000;
+        fill: none;
+       animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+      }
+      
+      .crossmark.animateElement {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        display: block;
+        stroke-width: 2;
+        stroke: #ff0000;
+        stroke-miterlimit: 10;
+        margin: 10% auto;
+        box-shadow: inset 0px 0px 0px #ff0000;
+        animation: fillred .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+      }
+      
+      .crossmark__check.animateElement {
+        transform-origin: 50% 50%;
+        stroke-dasharray: 48;
+        stroke-dashoffset: 48;
+        animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+      }
+      
+      .cross__path.animateElement {
+        stroke: #ffffff;
+        stroke-dasharray: 48;
+        stroke-dashoffset: 48;
+        transform-origin: 50% 50% 0;
+      }
+      .cross__path--right.animateElement {
+        animation: 0.3s ease 0.8s normal forwards 1 running stroke;
+      }
+      .cross__path--left.animateElement {
+        animation: 1s ease 0.8s normal forwards 1 running stroke;
+      }
+      @keyframes fillred {
+        100% {
+          box-shadow: inset 0px 0px 0px 30px #ff0000;
+        }
+        
+      }
+      @keyframes stroke {
+        100% {
+          stroke-dashoffset: 0;
+        }
+      }
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      .circular-loader {
+        -webkit-animation: rotate 2s linear infinite;
+                animation: rotate 2s linear infinite;
+        height: 40px;
+        -webkit-transform-origin: center center;
+            -ms-transform-origin: center center;
+                transform-origin: center center;
+        width: 40px
+        position: absolute;
+        top: 0;
+        left: 0;
+        margin: auto;
+      }
+      
+      .loader-path {
+        stroke-dasharray: 150,200;
+        stroke-dashoffset: -10;
+        -webkit-animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+                animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+        stroke-linecap: round;
+      }
+      
+      @-webkit-keyframes rotate {
+        100% {
+          -webkit-transform: rotate(360deg);
+                  transform: rotate(360deg);
+        }
+      }
+      
+      @keyframes rotate {
+        100% {
+          -webkit-transform: rotate(360deg);
+                  transform: rotate(360deg);
+        }
+      }
+      @-webkit-keyframes dash {
+        0% {
+          stroke-dasharray: 1,200;
+          stroke-dashoffset: 0;
+        }
+        50% {
+          stroke-dasharray: 89,200;
+          stroke-dashoffset: -35;
+        }
+        100% {
+          stroke-dasharray: 89,200;
+          stroke-dashoffset: -124;
+        }
+      }
+      @keyframes dash {
+        0% {
+          stroke-dasharray: 1,200;
+          stroke-dashoffset: 0;
+        }
+        50% {
+          stroke-dasharray: 89,200;
+          stroke-dashoffset: -35;
+        }
+        100% {
+          stroke-dasharray: 89,200;
+          stroke-dashoffset: -124;
+        }
+      }
+      @-webkit-keyframes color {
+        0% {
+          stroke: #ffffff;
+        }
+        40% {
+          stroke: #ffffff;
+        }
+        66% {
+          stroke: #ffffff;
+        }
+        80%, 90% {
+          stroke: #ffffff;
+        }
+      }
+      @keyframes color {
+        0% {
+          stroke: #ffffff;
+        }
+        40% {
+          stroke: #ffffff;
+        }
+        66% {
+          stroke: #ffffff;
+        }
+        80%, 90% {
+          stroke: #ffffff;
+        }
+      }
+</style>
+    <div class="container-fluid h-100">
+        <div class="row align-items-center d-flex justify-content-center">
+            <h4 class="p-5 col-12">Cancelled!</h4>
+            <div class="col-12 d-flex justify-content-center align-items-center">
+                <div class="w-50">
+                    <svg class="crossmark addClass" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle class="crossmark__circle addClass" cx="26" cy="26" r="25" fill="none"/>
+                        <path class="cross__path cross__path--right addClass" fill="none" d="M16,16 l20,20" />
+                         <path class="cross__path cross__path--left addClass" fill="none" d="M16,36 l20,-20" />
+                    </svg>                
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+    var $post = $(".addClass");
+    $post.toggleClass("animateElement");
+    setInterval(function(){   
+        $post.removeClass("animateElement");
+    setTimeout(function(){
+        $post.addClass("animateElement");    
+    }, 1000);
+    }, 4000);
+</script>
+{% endblock %}

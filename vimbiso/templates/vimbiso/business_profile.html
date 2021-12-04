@@ -13,15 +13,14 @@
 <!-- Content -->
     <div class="container-fluid m-0 p-0">
         <div class="bg-white flex-row d-flex justify-content-center">
-            <img class="border border-dark" src="https://images.unsplash.com/photo-1601158935942-52255782d322?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=436&q=80" style="max-height: 149px;max-width: 198px;">
+            <img class="border border-dark" src="{{c.profile.image.url}}" style="max-height: 149px;max-width: 198px;">
             <div class="flex-column pl-4">
-                <h1>TESLA</h1>
+                <h1>{{c.username}}</h1>
+                {% for i in avg_ratings_range  %}
                 <span class="fa fa-star checked text-warning"></span>
-                <span class="fa fa-star checked text-warning"></span>
-                <span class="fa fa-star checked text-warning"></span>
-                <span class="fa fa-star checked text-warning"></span>
-                <span class="fa fa-star checked text-warning"></span>
-                <p>Reviews 21,497</p>
+                {% endfor %}
+                <p>Reviews {{reviews|length}}</p>
+                <p> Avg ratings: {{avg_ratings}}</p>
             </div>
         </div>
         
@@ -80,93 +79,61 @@
                         <div class="card v-card v-sheet theme--light elevation-2 text-center" ><h1><strong>Recent Reviews</strong></h1>
                         <!---->
                         </div>
-                        <div  >
-                        <div  class="card v-card v-sheet theme--light elevation-2">
-                            <div  class="header">
-                            <div  class="v-avatar avatar" style="height: 50px; width: 50px;"><img  src="https://images.unsplash.com/photo-1490894641324-cfac2f5cd077?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=100&q=70">
-                            </div>
-                            <span  class="displayName title">John Doe</span> <span  class="displayName caption">2 days ago</span>
-                            <br>
+                        {% for r in reviews %}
+                        <div>
+                            {% if r.ratings > 4 %}
+                                <div  class="card v-card v-sheet theme--light elevation-2" style="border:3px solid var(--green);border-radius:18px">
+                            {% elif r.ratings < 4 and r.ratings > 2.5 %}
+                                <div  class="card v-card v-sheet theme--light elevation-2" style="border:3px solid var(--yellow);border-radius:18px">
+                            {% else %}
+                                <div  class="card v-card v-sheet theme--light elevation-2" style="border:3px solid var(--red);border-radius:18px">
+                            {% endif %}
+                            
+                                <div  class="header">
+                                    <div class="actions">
+                                        {% for i in r.get_ratings %}
+                                        <span class="fa fa-star checked"></span>
+                                        {% endfor %}
+                                    </div>
+                                <div  class="v-avatar avatar" style="height: 50px; width: 50px;"><img  src="https://www.kindpng.com/picc/m/269-2697881_computer-icons-user-clip-art-transparent-png-icon.png">
+                                </div>
+                                <span  class="displayName title metallic-red">{{r.name}}</span> <span  class="displayName caption">{{r.date_of_purchase}}</span> &nbsp<span><i class="fas fa-map-marker-alt"></i> {{r.branch_location}}</span>
+                                
+                                <br>
+                                </div>
+                                <!---->
+                                <div  class="wrapper comment">
+                                <p>{{r.review}}</p>
+                                </div>
+                                
+                                <div  class="v-dialog__container" style="display: block;"></div>
                             </div>
                             <!---->
-                            <div  class="wrapper comment">
-                            <p>Very happy with the perfume I ordered. Very happy with my purchase, quick delivery</p>
+                            {% if r.response %}
+                            <div  class="answers mb-5">
+                                <div class="message from"><span class="response"><strong style="text-transform: uppercase;">{{r.company.username}}: </strong></span>  {{r.response}}</div>
                             </div>
-                            <div  class="actions">
-                                <span class="fa fa-star checked text-warning"></span>
-                                <span class="fa fa-star checked text-warning"></span>
-                                <span class="fa fa-star checked text-warning"></span>
-                                <span class="fa fa-star checked text-warning"></span>
-                                <span class="fa fa-star checked text-warning"></span>
-                            </div>
-                            <div  class="v-dialog__container" style="display: block;"></div>
+                            {% endif %}
+                            
                         </div>
-                        <!---->
-                        <div  class="answers">
-                            <div class="message from"><span class="response"><strong>TESLA:</strong></span>  Thank you for considering us</div>
-                        </div>
-                        </div>
-                        <div  >
-                        <div  class="card v-card v-sheet theme--light elevation-2">
-                            <div  class="header">
-                            <div  class="v-avatar avatar" style="height: 50px; width: 50px;"><img  src="https://images.unsplash.com/photo-1476657680631-c07285ff2581?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=70"></div>
-                            <span  class="displayName title">Albert Arja</span> <span  class="displayName caption">15 days ago</span></div>
-                            <!---->
-                            <div  class="wrapper comment">
-                            <p>Fusce sodales magna id porta egestas. Nulla massa est, hendrerit nec auctor vitae, porta ut est.</p>
-                            <p>Thanks You.</p>
-                            </div>
-                            <div  class="actions">
-                                <span class="fa fa-star checked text-warning"></span>
-                                <span class="fa fa-star checked text-warning"></span>
-                                <span class="fa fa-star checked text-warning"></span>
-                                <span class="fa fa-star checked text-warning"></span>
-                            </div>
-                            <div  class="v-dialog__container" style="display: block;"></div>
-                        </div>
-                        <!---->
-                        <div  class="answers">
-                            <div class="message from"><span class="response"><strong>TESLA:</strong></span>  Thank you for considering us</div>
-                        </div>
-                        </div>
-                        <div  >
-                        <div  class="card v-card v-sheet theme--light elevation-2">
-                            <div  class="head er">
-                            <div  class="v-avatar avatar" style="height: 50px; width: 50px;"><img  src="https://images.unsplash.com/photo-1490894641324-cfac2f5cd077?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=100&q=70"></div>
-                            <span  class="displayName title">Robert</span> <span  class="displayName caption">2 months ago</span></div>
-                            <!---->
-                            <div  class="wrapper comment">
-                            <p>Fusce sodales magna id porta egestas. Nulla massa est, hendrerit nec auctor vitae, porta ut est. </p>
-                            <p>Fusce sodales magna id porta egestas. Nulla massa est, hendrerit nec auctor vitae, porta ut est.</p>
-                            </div>
-                            <div  class="actions">
-                                <span class="fa fa-star checked text-warning"></span>
-                                <span class="fa fa-star checked text-warning"></span>
-                                <span class="fa fa-star checked text-warning"></span>
-                                <span class="fa fa-star checked text-warning"></span>
-                            </div>
-                            <div  class="v-dialog__container" style="display: block;"></div>
-                        </div>
-                        <!---->
-                        <div  class="answers">
-                            <div class="message from"><span class="response"><strong>TESLA:</strong></span>  Thank you for considering us</div>
-                        </div>
-                        </div>
+                        {% endfor %}
+                        
+                        
                     </div>
                 </div>
             </div>
             <div class="flex-column col-4 pt-5">
                 <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="https://images.unsplash.com/photo-1601158935942-52255782d322?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=436&q=80" alt="Card image cap" style="max-height:350px">
+                    <img class="card-img-top" src="{{c.profile.image.url}}" alt="Card image cap" style="max-height:350px">
                     <div class="card-body">
                         <h5 class="card-title metallic-red text-center">About us</h5>
                         <p class="card-text">
-                            Tesla, Inc. is an American electric vehicle and clean energy company based in Palo Alto, California, United States. Tesla designs and manufactures electric cars, battery energy storage from home to grid-scale, solar panels and solar roof tiles, and related products and services.
+                            {{c.profile.description}}
                         </p>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><i class="fas fa-map-marker-alt metallic-red"></i>  San Carlos, California, United States</li>
-                        <li class="list-group-item"><i class="fas fa-phone-square metallic-red"></i> +92 321 8375278</li>
+                        <li class="list-group-item"><i class="fas fa-map-marker-alt metallic-red"></i> {{c.address}}</li>
+                        <li class="list-group-item"><i class="fas fa-phone-square metallic-red"></i> {{c.contact}}</li>
                     </ul>
 
                 </div>

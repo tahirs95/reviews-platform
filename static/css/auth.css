@@ -1,0 +1,9 @@
+.auth-cover{
+    background-image:url('static/images/cover1.jpg');
+    background-repeat:no-repeat;
+    background-size: cover;
+}
+
+.select2-container {
+    width: 100% !important;
+}

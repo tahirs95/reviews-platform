@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+from django.contrib.messages import constants as message_constants
+from django.contrib.messages import constants as messages
+import stripe as Stripe
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -41,8 +44,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'users',
-    'vimbiso'
+    'vimbiso',    
 ]
 
 MIDDLEWARE = [
@@ -163,3 +165,18 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
     # Extra lookup directories for collectstatic to find static files
 )
+
+MESSAGE_LEVEL = message_constants.DEBUG
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-info',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}
+
+AUTH_USER_MODEL = 'vimbiso.User'
+ACCOUNT_FORMS = {'signup': 'vimbiso.forms.CustomSignupForm'}
+
+Stripe.api_key = 'sk_test_51Ju5KIB4k1y3jDV8khEfAL1D5NWCGe4XHJpveLnOZKroVQkCB4YmHISSg5NFPt1p43yXSBEdBtUcSmHZaVUrwH9u00DPhRsKgG'
+
