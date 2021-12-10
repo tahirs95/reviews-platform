@@ -32,6 +32,7 @@ decorator==4.4.1
 defusedxml==0.6.0
 dj-database-url==0.4.2
 Django==3.1.5
+django-mptt
 django-allauth==0.44.0
 django-anymail==7.0.0
 django-autoslug-iplweb==1.9.4.dev0
