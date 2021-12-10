@@ -6,11 +6,13 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Avg
 import stripe
 from django.urls import reverse
+from django.db.models import Q
 
 def index(request):
     context = {}
     context['categories'] = Category.objects.all()
-    context['company'] = User.objects.all()
+    context['company'] = User.objects.filter(is_superuser=False)
+    context['reviews'] = Reviews.objects.all().order_by('created_at')
     return render(request,'vimbiso/home.html',context)
 
 def categories(request):
@@ -36,10 +38,13 @@ def business(request):
             context = {}
             getUser = request.user
             context['c'] = getUser
-            context['reviews'] = Reviews.objects.filter(company=getUser)
-            avg_ratings = Reviews.objects.filter(company=getUser).aggregate(Avg('ratings')) or 0 
-            context['avg_ratings'] = avg_ratings['ratings__avg']
-            context['avg_ratings_range'] = range(int(avg_ratings['ratings__avg']))
+            try:
+                context['reviews'] = Reviews.objects.filter(company=getUser)
+                avg_ratings = Reviews.objects.filter(company=getUser).aggregate(Avg('ratings')) or 0 
+                context['avg_ratings'] = avg_ratings['ratings__avg']
+                context['avg_ratings_range'] = range(int(avg_ratings['ratings__avg']))
+            except:
+                pass
             return render(request,'vimbiso/business_profile.html',context)
     else:
         company_img = request.FILES['company-image']
@@ -57,9 +62,10 @@ def business(request):
         profile.category.add( Category.objects.get(id = categoryID) )
         for x in tagsList:
             obj = Tags.objects.create(
-                company = request.user
+                company = request.user,
+                tag = x
             )
-            obj.tag = x
+            print(obj)
             profile.tags.add(obj)
         request.user.level = 1
         request.user.save()
@@ -130,16 +136,24 @@ def companies(request):
         context = {}
         context['companies'] = User.objects.filter(is_superuser=False)
         return render(request,'vimbiso/companies.html',context)
+    else:
+        context = {}
+        obj = request.POST['search']
+        context['companies'] = User.objects.filter(Q(username__icontains=obj) | Q(profile__category__name__icontains=obj) & Q(is_superuser=False))
+        return render(request,'vimbiso/companies.html',context)
 
 def company_description(request,id=None):
     if request.method == "GET":
         context = {}
         getUser = User.objects.get(id=id)
         context['c'] = getUser
-        context['reviews'] = Reviews.objects.filter(company=getUser)
-        avg_ratings = Reviews.objects.filter(company=getUser).aggregate(Avg('ratings')) or 0 
-        context['avg_ratings'] = avg_ratings['ratings__avg']
-        context['avg_ratings_range'] = range(int(avg_ratings['ratings__avg']))
+        try:
+            context['reviews'] = Reviews.objects.filter(company=getUser)
+            avg_ratings = Reviews.objects.filter(company=getUser).aggregate(Avg('ratings')) or 0
+            context['avg_ratings'] = avg_ratings['ratings__avg']
+            context['avg_ratings_range'] = range(int(avg_ratings['ratings__avg'])) 
+        except:
+            pass
         return render(request,'vimbiso/business_profile.html',context)
 
 @login_required

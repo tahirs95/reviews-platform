@@ -118,27 +118,32 @@ AUTHENTICATION_BACKENDS = [
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 # https://docs.djangoproject.com/en/2.2/ref/settings/#email-timeout
-#EMAIL_TIMEOUT = 5
-# EMAIL_USE_TLS = True
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 587
-# EMAIL_HOST_USER = DEFAULT_FROM_EMAIL = <<>>
-# EMAIL_HOST_PASSWORD = <<>>
-# EMAIL_SUBJECT_PREFIX = <<>>
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = DEFAULT_FROM_EMAIL = 'hassanbaras5@gmail.com'
+EMAIL_HOST_PASSWORD = 'Wokay2473'
+EMAIL_SUBJECT_PREFIX = 'Vimbiso'
 
 
 # All auth settings
+ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
+ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = True
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS =1
 ACCOUNT_EMAIL_VERIFICATION = "none"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_LOGOUT_REDIRECT_URL ='/'
 LOGIN_REDIRECT_URL = "/"  # default to /accounts/profile 
-ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 
+
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
+
+from django.contrib.messages import constants as message_constants
+MESSAGE_LEVEL = message_constants.DEBUG
 
 LANGUAGE_CODE = 'en-us'
 

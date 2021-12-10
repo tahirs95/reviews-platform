@@ -14,31 +14,32 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="{% url 'vimbiso:aboutus' %}">About us</a>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'vimbiso:categories' %}">Categories</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="{% url 'vimbiso:plans' %}">For Businesses</a>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link active" href="{% url 'vimbiso:companies' %}">View Companies</a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="#">Contact us</a>
                 </li>
-                <li class="nav-item">
-                    {% if request.user.is_authenticated %}
-                        <a class="nav-link active" href="accounts/logout">Log out</a>
-                    {% else %}
-                        <a class="nav-link active" href="accounts/login">Log in</a>
-                    {% endif %}
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="{% url 'vimbiso:business' %}">Profile</a>
-                </li>
+                <li class="nav-item dropdown active">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      For Businesses
+                    </a>
+                    <div class="dropdown-menu p-0" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item border-bottom border-dark text-dark" href="{% url 'vimbiso:plans' %}">Plans</a>
+                        {% if request.user.is_authenticated %}
+                            <a class="dropdown-item border-bottom border-dark text-dark" href="{% url 'vimbiso:business' %}">Profile</a>
+                            <a class="dropdown-item border-bottom border-dark text-dark" href="{% url 'account_logout' %}">Log out</a>
+                            <a class="dropdown-item text-dark" href=""><i class="fas fa-user metallic-green"></i> {{request.user.username}}</a>
+                        {% else %}
+                            <a class="dropdown-item text-dark border-bottom border-dark" href="{% url 'account_reset_password' %}">Claim Profile</a>
+                            <a class="dropdown-item text-dark border-bottom border-dark" href="{% url 'account_login' %}">Log in</a>
+                            <a class="dropdown-item text-dark" href="{%url 'account_signup'%}">Register</a>
+                        {% endif %}
+                    </div>
+                  </li>
                 <li class="nav-item">
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn metallic-red-bg" data-toggle="modal" data-target="#exampleModalCenter">
+                    <button type="button" class="btn metallic-red-bg" style="margin-top: 20px;" data-toggle="modal" data-target="#exampleModalCenter">
                     Give a review
                     </button>
                 </li>

@@ -74,6 +74,7 @@ class Reviews(models.Model):
     response = models.TextField()
     is_resolved =  models.BooleanField(default=False)
     company = models.ForeignKey(User, on_delete=models.CASCADE,related_name='reviews')
+    created_at = models.DateTimeField(auto_now_add=True,null=True)
     # created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

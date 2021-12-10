@@ -16,12 +16,11 @@
             </div>
             <div class="col-6 cover-search ml-5">
                 <div id="search">
-                    <form action="javascript:void(0);" method="GET">
+                    <form action="{% url 'vimbiso:companies' %}" method="POST">
+                        {% csrf_token %}
                         <fieldset class="clearfix mb-0">
-
                             <input type="search" name="search" placeholder="Company or category">
                             <input type="submit" value="Search" class="button float-right metallic-red-bg">
-
                         </fieldset>
                     </form>
                 </div>
@@ -33,11 +32,11 @@
                     <a class="btn float-right text-white metallic-red-bg" href="{% url 'vimbiso:categories' %}">View All</a>
                 </div><br>
         </section>
-        <div class="row pl-5 mb-4" style="width:inherit">
+        <div class="row pl-5 mb-4 mt-2" style="width:inherit;max-height:350px">
             {% for i in categories %}
                 <!-- UIkit CARD -->
                 {% if categories %}
-                    <button class="btn btn-default col-auto p-3 btn-category">{{i.name}}</button>
+                    <button class="btn btn-default col-auto p-4 btn-category m-3" style="border:1px solid var(--green);border-radius:10px">{{i.name}}</button>
 
                 {% else %}
                 <h3>No Categories found!<h3>
@@ -47,182 +46,49 @@
         <h1 class="text-center">Recent Reviews</h1>
         <div class="slider">
             <div class="slide-track">
-                <div class="slide">
-                    <div class="reviewcard review-good">
-                        <div class="propicbox"><img src="https://preview.checchiadesign.com/code/reviewcard/img/foto.jpg" class="propic"></div>
-                        <div class="reviewerbox">
-                            <h1><a href="https://www.facebook.com/checchiadesign/" class="reviewername" target="_blank">Simone Checchia</a></h1>
-                            <p class="reviewdate">30/10/2020</p>
+                {% if reviews %}
+                    {% for r in reviews %}
+                    <div class="slide">
+                        {% if r.ratings > 4 %}
+                            <div  class="reviewcard review-good">
+                        {% elif r.ratings < 4 and r.ratings > 2.5 %}
+                            <div  class="reviewcard review-medium">
+                        {% else %}
+                            <div  class="reviewcard review-bad">
+                        {% endif %}
+                        <div class="propicbox">
+                            <img src="https://w7.pngwing.com/pngs/419/473/png-transparent-computer-icons-user-profile-login-user-heroes-sphere-black-thumbnail.png" class="propic">
                         </div>
-                        <p class="review">Lorem ipsum dolor sit amet, cu pertinax nominati sea, id iriure utamur interpretaris sea, vix ne latine aliquam complectitur. Enim quas his no, mea ferri audire rationibus ei.</p>
+                        <div class="reviewerbox">
+                            <span style="font-size:px">{{r.name}}
+                                {% if r.company.profile.verified %}
+                                <i class="fas fa-check-circle text-primary"></i>
+                                {% endif %}
+                            </span>
+                            <div class="flex-row">
+                            {% if r.ratings > 4 %}
+                                {% for i in r.get_ratings %}
+                                    <span class="fa fa-star metallic-green"></span>
+                                {% endfor %}
+                            {% elif r.ratings < 4 and r.ratings > 2.5 %}
+                                {% for i in r.get_ratings %}
+                                    <span class="fa fa-star metallic-yellow"></span>
+                                {% endfor %}
+                            {% else %}
+                                {% for i in r.get_ratings %}
+                                    <span class="fa fa-star metallic-red"></span>
+                                {% endfor %}
+                            {% endif %}
+                            </div>
+                            <span style="color:var(--blue);font-size:14px !important">{{r.created_at|date:"D d, M, Y"}}  <i class="fas fa-map-marker-alt text-success"></i> {{r.branch_location}}</span>
+                        </div>
+                        <p class="review p-2">{{r.review}}</p>
                         <p class="bottomText">review on WhatsApp <a href="#" target="_blank"><i class="fab fa-whatsapp fa-2x ml-2"></i></a></p>   
                     </div>
-                </div>
-                <div class="slide">
-                    <div class="reviewcard review-bad">
-                        <div class="propicbox"><img src="https://preview.checchiadesign.com/code/reviewcard/img/foto.jpg" class="propic"></div>
-                        <div class="reviewerbox">
-                            <h1><a href="https://www.facebook.com/checchiadesign/" class="reviewername" target="_blank">Simone Checchia <i class="fas fa-check-circle"></i></a></h1>
-                            <span class="fa fa-star checked metallic-red"></span>
-                            <span class="fa fa-star checked metallic-red"></span>
-                            <p class="reviewdate mt-2">30/10/2020</p>
-                        </div>
-                        <p class="review">Lorem ipsum dolor sit amet, cu pertinax nominati sea, id iriure utamur interpretaris sea, vix ne latine aliquam complectitur. Enim quas his no, mea ferri audire rationibus ei.</p>
-                        <p class="bottomText">review on WhatsApp <a href="#" target="_blank"><i class="fab fa-whatsapp fa-2x ml-2"></i></a></p>   
                     </div>
-                </div>
-                <div class="slide">
-                    <div class="reviewcard review-medium">
-                        <div class="propicbox"><img src="https://preview.checchiadesign.com/code/reviewcard/img/foto.jpg" class="propic"></div>
-                        <div class="reviewerbox">
-                            <h1><a href="https://www.facebook.com/checchiadesign/" class="reviewername" target="_blank">Simone Checchia <i class="fas fa-check-circle"></i></a></h1>
-                            <span class="fa fa-star checked metallic-yellow"></span>
-                            <span class="fa fa-star checked metallic-yellow"></span>
-                            <span class="fa fa-star checked metallic-yellow"></span>
-                            <p class="reviewdate mt-2">30/10/2020</p>
-                        </div>
-                        <p class="review">Lorem ipsum dolor sit amet,tamur interpretaris sea, vix ne latine aliquam complectitur. Enim quas his no, mea ferri audire rationibus ei.</p>
-                    </div>
-                </div>
-                <div class="slide">
-                    <div class="reviewcard review-good">
-                        <div class="propicbox"><img src="https://preview.checchiadesign.com/code/reviewcard/img/foto.jpg" class="propic"></div>
-                        <div class="reviewerbox">
-                            <h1><a href="https://www.facebook.com/checchiadesign/" class="reviewername" target="_blank">Simone Checchia</a></h1>
-                            <span class="fa fa-star checked metallic-green"></span>
-                            <span class="fa fa-star checked metallic-green"></span>
-                            <span class="fa fa-star checked metallic-green"></span>
-                            <span class="fa fa-star checked metallic-green"></span>
-                            <span class="fa fa-star checked metallic-green"></span>
-                            <p class="reviewdate mt-2">30/10/2020</p>
-                        </div>
-                        <p class="review">Lorem ipsum dolor sit amet, cu pertinax nominati sea, id iriure utamur interpretaris sea, vix ne latine aliquam complectitur. Enim quas his no, mea ferri audire rationibus ei.</p>
-                        <p class="bottomText">review on WhatsApp <a href="#" target="_blank"><i class="fab fa-whatsapp fa-2x ml-2"></i></a></p>   
-                    </div>
-                </div>
-                <div class="slide">
-                    <div class="reviewcard review-good">
-                        <div class="propicbox"><img src="https://preview.checchiadesign.com/code/reviewcard/img/foto.jpg" class="propic"></div>
-                        <div class="reviewerbox">
-                            <h1><a href="https://www.facebook.com/checchiadesign/" class="reviewername" target="_blank">Simone Checchia <i class="fas fa-check-circle"></i></a></h1>
-                            <span class="fa fa-star checked metallic-green"></span>
-                            <span class="fa fa-star checked metallic-green"></span>
-                            <span class="fa fa-star checked metallic-green"></span>
-                            <span class="fa fa-star checked metallic-green"></span>
-                            <span class="fa fa-star checked metallic-green"></span>
-                            <p class="reviewdate mt-2">30/10/2020</p>
-                        </div>
-                        <p class="review">Lorem ipsum dolor sit amet, Enim quas his no, mea ferri audire rationibus ei.</p>
-                    </div>
-                </div>
-                <div class="slide">
-                    <div class="reviewcard review-medium">
-                        <div class="propicbox"><img src="https://preview.checchiadesign.com/code/reviewcard/img/foto.jpg" class="propic"></div>
-                        <div class="reviewerbox">
-                            <h1><a href="https://www.facebook.com/checchiadesign/" class="reviewername" target="_blank">Simone Checchia</a></h1>
-                            <span class="fa fa-star checked metallic-yellow"></span>
-                            <span class="fa fa-star checked metallic-yellow"></span>
-                            <span class="fa fa-star checked metallic-yellow"></span>
-                            <span class="fa fa-star checked metallic-yellow"></span>
-                            <p class="reviewdate mt-2">30/10/2020</p>
-                        </div>
-                        <p class="review">Lorem ipsum dolor sit amet, cu pertinax nominati sea, id iriure utamur interpretaris sea, vix ne latine aliquam complectitur. Enim quas his no, mea ferri audire rationibus ei.</p>
-                        <p class="bottomText">review on WhatsApp <a href="#" target="_blank"><i class="fab fa-whatsapp fa-2x ml-2"></i></a></p>   
-                    </div>
-                </div>
-                <div class="slide">
-                    <div class="reviewcard review-bad">
-                        <div class="propicbox"><img src="https://preview.checchiadesign.com/code/reviewcard/img/foto.jpg" class="propic"></div>
-                        <div class="reviewerbox">
-                            <h1><a href="https://www.facebook.com/checchiadesign/" class="reviewername" target="_blank">Simone Checchia</a></h1>
-                            <p class="reviewdate">30/10/2020</p>
-                        </div>
-                        <p class="review">Lorem ipsum dolor sit amet, cu pertinax nominati sea, id iriure utamur interpretaris sea, vix ne latine aliquam complectitur. Enim quas his no, mea ferri audire rationibus ei.</p>
-                        <p class="bottomText">review on WhatsApp <a href="#" target="_blank"><i class="fab fa-whatsapp fa-2x ml-2"></i></a></p>   
-                    </div>
-                </div>
-                <div class="slide">
-                    <div class="reviewcard review-good">
-                        <div class="propicbox"><img src="https://preview.checchiadesign.com/code/reviewcard/img/foto.jpg" class="propic"></div>
-                        <div class="reviewerbox">
-                            <h1><a href="https://www.facebook.com/checchiadesign/" class="reviewername" target="_blank">Simone Checchia</a></h1>
-                            <p class="reviewdate">30/10/2020</p>
-                        </div>
-                        <p class="review">Lorem ipsum dolor sit amet, cu pertinax nominati sea, id iriure utamur interpretaris sea, vix ne latine aliquam complectitur. Enim quas his no, mea ferri audire rationibus ei.</p>
-                        <p class="bottomText">review on WhatsApp <a href="#" target="_blank"><i class="fab fa-whatsapp fa-2x ml-2"></i></a></p>   
-                    </div>
-                </div>
-                <div class="slide">
-                    <div class="reviewcard review-good">
-                        <div class="propicbox"><img src="https://preview.checchiadesign.com/code/reviewcard/img/foto.jpg" class="propic"></div>
-                        <div class="reviewerbox">
-                            <h1><a href="https://www.facebook.com/checchiadesign/" class="reviewername" target="_blank">Simone Checchia</a></h1>
-                            <span class="fa fa-star checked metallic-green"></span>
-                            <span class="fa fa-star checked metallic-green"></span>
-                            <span class="fa fa-star checked metallic-green"></span>
-                            <span class="fa fa-star checked metallic-green"></span>
-                            <span class="fa fa-star checked metallic-green"></span>
-                            <p class="reviewdate mt-2">30/10/2020</p>
-                        </div>
-                        <p class="review">Lorem ipsum dolor sit amet, cu pertinax nominati sea, id iriure utamur interpretaris sea, vix ne latine aliquam complectitur. Enim quas his no, mea ferri audire rationibus ei.</p>
-                        <p class="bottomText">review on WhatsApp <a href="#" target="_blank"><i class="fab fa-whatsapp fa-2x ml-2"></i></a></p>   
-                    </div>
-                </div>
-                <div class="slide">
-                    <div class="reviewcard review-good">
-                        <div class="propicbox"><img src="https://preview.checchiadesign.com/code/reviewcard/img/foto.jpg" class="propic"></div>
-                        <div class="reviewerbox">
-                            <h1><a href="https://www.facebook.com/checchiadesign/" class="reviewername" target="_blank">Simone Checchia</a></h1>
-                            <p class="reviewdate">30/10/2020</p>
-                        </div>
-                        <p class="review">Lorem ipsum dolor sit amet, cu pertinax nominati sea, id iriure utamur interpretaris sea, vix ne latine aliquam complectitur. Enim quas his no, mea ferri audire rationibus ei.</p>
-                        <p class="bottomText">review on WhatsApp <a href="#" target="_blank"><i class="fab fa-whatsapp fa-2x ml-2"></i></a></p>   
-                    </div>
-                </div>
-                <div class="slide">
-                    <div class="reviewcard review-bad">
-                        <div class="propicbox"><img src="https://preview.checchiadesign.com/code/reviewcard/img/foto.jpg" class="propic"></div>
-                        <div class="reviewerbox">
-                            <h1><a href="https://www.facebook.com/checchiadesign/" class="reviewername" target="_blank">Simone Checchia</a></h1>
-                            <p class="reviewdate">30/10/2020</p>
-                        </div>
-                        <p class="review">Lorem ipsum dolor sit amet, cu pertinax nominati sea, id iriure utamur interpretaris sea, vix ne latine aliquam complectitur. Enim quas his no, mea ferri audire rationibus ei.</p>
-                        <p class="bottomText">review on WhatsApp <a href="#" target="_blank"><i class="fab fa-whatsapp fa-2x ml-2"></i></a></p>   
-                    </div>
-                </div>
-                <div class="slide">
-                    <div class="reviewcard review-good">
-                        <div class="propicbox"><img src="https://preview.checchiadesign.com/code/reviewcard/img/foto.jpg" class="propic"></div>
-                        <div class="reviewerbox">
-                            <h1><a href="https://www.facebook.com/checchiadesign/" class="reviewername" target="_blank">Simone Checchia</a></h1>
-                            <p class="reviewdate">30/10/2020</p>
-                        </div>
-                        <p class="review">Lorem ipsum dolor sit amet, cu pertinax nominati sea, id iriure utamur interpretaris sea, vix ne latine aliquam complectitur. Enim quas his no, mea ferri audire rationibus ei.</p>
-                        <p class="bottomText">review on WhatsApp <a href="#" target="_blank"><i class="fab fa-whatsapp fa-2x ml-2"></i></a></p>   
-                    </div>
-                </div>
-                <div class="slide">
-                    <div class="reviewcard review-good">
-                        <div class="propicbox"><img src="https://preview.checchiadesign.com/code/reviewcard/img/foto.jpg" class="propic"></div>
-                        <div class="reviewerbox">
-                            <h1><a href="https://www.facebook.com/checchiadesign/" class="reviewername" target="_blank">Simone Checchia</a></h1>
-                            <p class="reviewdate">30/10/2020</p>
-                        </div>
-                        <p class="review">Lorem ipsum dolor sit amet, cu pertinax nominati sea, id iriure utamur interpretaris sea, vix ne latine aliquam complectitur. Enim quas his no, mea ferri audire rationibus ei.</p>
-                        <p class="bottomText">review on WhatsApp <a href="#" target="_blank"><i class="fab fa-whatsapp fa-2x ml-2"></i></a></p>   
-                    </div>
-                </div>
-                <div class="slide">
-                    <div class="reviewcard review-good">
-                        <div class="propicbox"><img src="https://preview.checchiadesign.com/code/reviewcard/img/foto.jpg" class="propic"></div>
-                        <div class="reviewerbox">
-                            <h1><a href="https://www.facebook.com/checchiadesign/" class="reviewername" target="_blank">Simone Checchia</a></h1>
-                            <p class="reviewdate">30/10/2020</p>
-                        </div>
-                        <p class="review">Lorem ipsum dolor sit amet, cu pertinax nominati sea, id iriure utamur interpretaris sea, vix ne latine aliquam complectitur. Enim quas his no, mea ferri audire rationibus ei.</p>
-                        <p class="bottomText">review on WhatsApp <a href="#" target="_blank"><i class="fab fa-whatsapp fa-2x ml-2"></i></a></p>   
-                    </div>
-                </div>
+                    {% endfor %}
+                {% else %}
+            {% endif %}
             </div>
         </div>
         

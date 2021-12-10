@@ -1,5 +1,6 @@
 from allauth.account.forms import SignupForm 
 from django import forms
+from allauth.account.forms import ResetPasswordKeyForm
 
 class CustomSignupForm(SignupForm):
     address = forms.CharField(widget=forms.Textarea)
@@ -12,6 +13,9 @@ class CustomSignupForm(SignupForm):
 
         if(self.cleaned_data['contact']):
             user.contact = str(self.cleaned_data['contact'])
+
+        if(self.cleaned_data['username']):
+            user.username = str(self.cleaned_data['username'])
 
         user.save()
         return user
