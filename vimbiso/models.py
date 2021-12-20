@@ -21,13 +21,6 @@ class BusinessProfile(models.Model):
     def __str__(self):
         return self.user.username
 
-class BusinessSubscription(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE,related_name="subscription")
-    plan_type = models.CharField(max_length=100)
-    subscription_id = models.TextField(null=True, blank=True)
-    paid_until = models.DateTimeField()
-    created_at = models.DateTimeField(auto_now_add=True)
-
 class BusinessImages(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE,related_name="images")
     img = models.ImageField(upload_to="media")
@@ -75,11 +68,22 @@ class Reviews(models.Model):
     is_resolved =  models.BooleanField(default=False)
     company = models.ForeignKey(User, on_delete=models.CASCADE,related_name='reviews')
     created_at = models.DateTimeField(auto_now_add=True,null=True)
-    # created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.contact
 
     def get_ratings(self):
         return range(int(self.ratings))
+
+class Subscription(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE,related_name="subscription")
+    sub_id = models.CharField(max_length=100)
+    is_active = models.BooleanField(default=False)
+    period_start = models.DateTimeField(blank=True,null=True)
+    period_end = models.DateTimeField(blank=True,null=True)
+    amount_paid = models.CharField(max_length=100)
+    plan_type = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"{self.user.email},{self.id}"
 

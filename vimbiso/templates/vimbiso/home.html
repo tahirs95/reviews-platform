@@ -6,6 +6,18 @@
 {% endblock title %}
 
 {% block content %}
+<style>
+    .category-block{
+        padding: 24px 18px;
+        min-width: 274px;
+        min-height: 89px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        transition: all 0.2s ease;
+    }
+</style>
 <div class="container-fluid">
         <div class="row cover p-5">
             <div class="col-6 p-4 ml-5">
@@ -20,7 +32,7 @@
                         {% csrf_token %}
                         <fieldset class="clearfix mb-0">
                             <input type="search" name="search" placeholder="Company or category">
-                            <input type="submit" value="Search" class="button float-right metallic-red-bg">
+                            <input type="submit" value="Search" class="button float-right bright-red-bg">
                         </fieldset>
                     </form>
                 </div>
@@ -29,21 +41,21 @@
         <section class="row pl-5 mt-4">
                 <div class="col-11">
                     <span class="section-title float-left">Explore categories</span>
-                    <a class="btn float-right text-white metallic-red-bg" href="{% url 'vimbiso:categories' %}">View All</a>
+                    <a class="btn float-right text-white border-0 bright-green-bg" href="{% url 'vimbiso:categories' %}">View All</a>
                 </div><br>
         </section>
-        <div class="row pl-5 mb-4 mt-2" style="width:inherit;max-height:350px">
+        <div class="row pl-5 mb-4 mt-2 d-flex align-items-center justify-content-start ml-3" style="width:inherit;max-height:350px">
             {% for i in categories %}
                 <!-- UIkit CARD -->
                 {% if categories %}
-                    <button class="btn btn-default col-auto p-4 btn-category m-3" style="border:1px solid var(--green);border-radius:10px">{{i.name}}</button>
+                    <button class="btn btn-default  btn-category m-1 category-block">{{i.name}}</button>
 
                 {% else %}
                 <h3>No Categories found!<h3>
                 {% endif %}                           
             {% endfor %}
         </div>
-        <h1 class="text-center">Recent Reviews</h1>
+        <h2 class="text-center">Recent Reviews</h2>
         <div class="slider">
             <div class="slide-track">
                 {% if reviews %}
@@ -83,7 +95,8 @@
                             <span style="color:var(--blue);font-size:14px !important">{{r.created_at|date:"D d, M, Y"}}  <i class="fas fa-map-marker-alt text-success"></i> {{r.branch_location}}</span>
                         </div>
                         <p class="review p-2">{{r.review}}</p>
-                        <p class="bottomText">review on WhatsApp <a href="#" target="_blank"><i class="fab fa-whatsapp fa-2x ml-2"></i></a></p>   
+                        <p class="mb-0 mt-3"><i class="fas fa-building"></i> {{r.company.username}}</p>
+                        <p class="bottomText mt-0 mb-0">review on WhatsApp <a href="#" target="_blank"><i class="fab fa-whatsapp fa-2x ml-2"></i></a></p>   
                     </div>
                     </div>
                     {% endfor %}

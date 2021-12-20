@@ -8,8 +8,8 @@
     border-radius: 50%;
     border-top: 2px dashed var(--red);
     border-right: 2px dashed var(--red);
-    border-left: 2px dashed var(--blue);
-    border-bottom: 2px dashed var(--blue);
+    border-left: 2px dashed var(--green);
+    border-bottom: 2px dashed var(--yellow);
     padding: 10px;
     animation: spin 10s infinite linear;
 }
@@ -27,7 +27,6 @@
 }
 .about-description{
     font-size: 1.125rem;
-    line-height: 1.5rem;
     color:black;
 }
 .ceo-img{

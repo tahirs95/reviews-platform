@@ -7,10 +7,86 @@ from django.db.models import Avg
 import stripe
 from django.urls import reverse
 from django.db.models import Q
+import json
+from django.views.decorators.csrf import csrf_exempt
+from datetime import datetime
+from django.utils.timezone import make_aware
+
+@csrf_exempt
+def webhook_received(request):
+    webhook_secret = 'whsec_d1iEXsbQ0s9KEotUxCRIk35TxTOjkrlO'
+    request_data = json.loads(request.body)
+
+    if webhook_secret:
+        # Retrieve the event by verifying the signature using the raw body and secret if webhook signing is configured.
+        signature = request.headers.get('stripe-signature')
+        try:
+            event = stripe.Webhook.construct_event(
+                payload=request.body, sig_header=signature, secret=webhook_secret)
+            data = event['data']
+        except Exception as e:
+            return e
+        # Get the type of webhook event sent - used to check the status of PaymentIntents.
+        event_type = event['type']
+    else:
+        data = request_data['data']
+        event_type = request_data['type']
+    data_object = data['object']
+
+    if event_type == 'checkout.session.completed':
+        print('checkout.session.completed')
+           
+    elif event_type == 'invoice.paid':
+        print(data)
+        response = data['object']
+        GetUser = User.objects.get(email=response['customer_email'])
+        amount_received = response['total']/100
+        if amount_received == 200:
+            plan = 'Standard Plan ($200 per month)'
+        elif amount_received == 500:
+            plan = 'Premium Plan ($500 per month)'
+            verified = True
+        try:
+            sub = Subscription.objects.get(user = GetUser)
+            if verified:
+                try:
+                    GetUser.profile.verified = True
+                except:
+                    pass
+            sub.sub_id = response['subscription']
+            sub.is_active = True
+            sub.period_start = make_aware(datetime.fromtimestamp(response['period_start']))
+            sub.period_end = make_aware(datetime.fromtimestamp(response['period_end']))
+            sub.amount_paid = amount_received
+            sub.plan_type = plan
+            sub.save()
+        except Subscription.DoesNotExist:
+            sub = Subscription.objects.create(user = GetUser)
+            if verified:
+                try:
+                    GetUser.profile.verified = True
+                except:
+                    pass
+            sub.sub_id = response['subscription']
+            sub.is_active = True
+            sub.period_start = make_aware(datetime.fromtimestamp(response['period_start']))
+            sub.period_end = make_aware(datetime.fromtimestamp(response['period_end']))
+            sub.amount_paid = amount_received
+            sub.plan_type = plan
+            sub.save()
+
+    elif event_type == 'invoice.payment_failed':
+      print('payment_failed')
+
+    else:
+      print('Unhandled event type {}'.format(event_type))
+
+    return JsonResponse({'status': 'success'})
+
 
 def index(request):
     context = {}
-    context['categories'] = Category.objects.all()
+    context['categories'] = Category.objects.all()[:12]
     context['company'] = User.objects.filter(is_superuser=False)
     context['reviews'] = Reviews.objects.all().order_by('created_at')
     return render(request,'vimbiso/home.html',context)
@@ -148,6 +224,12 @@ def company_description(request,id=None):
         getUser = User.objects.get(id=id)
         context['c'] = getUser
         try:
+            context['total_reviews'] = Reviews.objects.filter(company=getUser).count()
+            context['excellent'] = Reviews.objects.filter(company=getUser,ratings__range=(4,5)).count()
+            context['great'] = Reviews.objects.filter(company=getUser,ratings__range=(3,4)).count()
+            context['average'] = Reviews.objects.filter(company=getUser,ratings__range=(2,3)).count()
+            context['poor'] = Reviews.objects.filter(company=getUser,ratings__range=(1,2)).count()
+            context['bad'] = Reviews.objects.filter(company=getUser,ratings__lte=1).count()
             context['reviews'] = Reviews.objects.filter(company=getUser)
             avg_ratings = Reviews.objects.filter(company=getUser).aggregate(Avg('ratings')) or 0
             context['avg_ratings'] = avg_ratings['ratings__avg']
@@ -168,9 +250,10 @@ def subscribe(request):
             success_url = success,
             cancel_url = cancel,
             mode='subscription',
+            customer_email = f"{request.user.email}",
             line_items=[{
                 'price': priceID,
-                'quantity': 1
+                'quantity': 1,
             }],
         )
 
@@ -182,3 +265,27 @@ def payment_success(request):
 
 def payment_cancel(request):
     return render(request,'vimbiso/payment_cancel.html')
+
+def contactus(request):
+    return render(request,'vimbiso/contactus.html')
+
+@login_required
+def response(request):
+    data = {'success': False} 
+    if request.method=='POST':
+        _id = request.POST.get('id')
+        _response = request.POST.get('response')
+        print(_id)
+        print(_response)
+        if _id and _response:
+            obj = Reviews.objects.get(
+                id = _id
+            )
+            obj.response = _response
+            obj.save()
+            data['success'] = True
+            data['msg'] = "Response added. Kindly reload page to view response!"
+        else:
+            data['success'] = False
+
+    return JsonResponse(data)

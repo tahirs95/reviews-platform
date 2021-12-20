@@ -17,6 +17,9 @@ urlpatterns = [
     path('subscribe/', subscribe, name='subscribe'),
     path('payment-success/', payment_success, name='payment_success'),
     path('payment-cancel/', payment_cancel, name='payment_cancel'),
+    path('webhooks/',webhook_received,name='webhook'),
+    path('contactus/',contactus,name='contactus'),
+    path('response/',response,name='response'),
 ]
 
 if settings.DEBUG: 

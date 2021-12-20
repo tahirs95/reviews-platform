@@ -35,6 +35,7 @@ h1{
 }
 body{
     font-family: 'gotham';
+	overflow-x: hidden;
 }
 .cover{
     min-width: 1349px;
@@ -173,14 +174,35 @@ input[type="search"]::-webkit-search-decoration {
 	color:black;
 	background-color: white;
 }
+.bright-red-bg{
+	background:linear-gradient(to right, #cb2d3e, #ef473a) !important;color:white;
+}
+.bright-green-bg{
+	background:linear-gradient(to right, #093028, #237A57) !important;color:white
+}
+.bright-yellow-bg{
+	background:  linear-gradient(to right, #F7971E,#FFD200 );
+}
 .review-bad{
-	border: 4px solid #a62c2b;
+	background: linear-gradient(#fff,#fff) padding-box, linear-gradient(to right, #cb2d3e, #ef473a) border-box;
+	padding: 20px;
+	border: 5px solid transparent;
+	border-radius: 15px;
+	display: inline-block;
 }
 .review-medium{
-	border: 4px solid #F5D21F;
+	background: linear-gradient(#fff,#fff) padding-box, linear-gradient(to right, #F7971E,#FFD200 ) border-box;
+	padding: 20px;
+	border: 5px solid transparent;
+	border-radius: 15px;
+	display: inline-block;
 }
 .review-good{
-	border: 4px solid #296e01;
+	background: linear-gradient(#fff,#fff) padding-box, linear-gradient(to right, #56ab2f, #a8e063) border-box;
+	padding: 20px;
+	border: 5px solid transparent;
+	border-radius: 15px;
+	display: inline-block;
 }
 .propicbox {
 	float: left;
@@ -441,7 +463,7 @@ left: 120%;
 		transform: translateX(0);
    }
 	100% {
-		transform: translateX(calc(-250px * 7));
+		transform: translateX(calc(-250px * 5));
    }
 }
 .slider {
@@ -473,6 +495,10 @@ left: 120%;
 	animation: scroll 40s linear infinite;
 	display: flex;
 	width: calc(250px * 14);
+}
+.slider .slide-track:hover
+{
+    animation-play-state: paused;
 }
 /* .slider .slide {
 	background: white;
@@ -618,7 +644,7 @@ ul {
   transform: rotate(-6deg);
 }
 .copyright-area{
-  background: #202020;
+  background: linear-gradient(to right, #000000, #434343) !important;
   padding: 25px 0;
 }
 .copyright-text p {
@@ -642,8 +668,7 @@ ul {
 }
 
 .metallic-red-bg{
-	background-color:#B30E16;
-	color:white;
+	background:linear-gradient(to right, #cb2d3e, #ef473a) !important;color:white;border:0px !important;
 }
 
 :root {
