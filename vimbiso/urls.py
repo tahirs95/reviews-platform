@@ -20,6 +20,7 @@ urlpatterns = [
     path('webhooks/',webhook_received,name='webhook'),
     path('contactus/',contactus,name='contactus'),
     path('response/',response,name='response'),
+    path('filter/',filter,name='filter'),
 ]
 
 if settings.DEBUG: 

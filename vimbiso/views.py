@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render, render
 from .models import *
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
-from django.db.models import Avg
+from django.db.models import Avg, Count
 import stripe
 from django.urls import reverse
 from django.db.models import Q
@@ -11,6 +11,7 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime
 from django.utils.timezone import make_aware
+
 
 @csrf_exempt
 def webhook_received(request):
@@ -210,12 +211,12 @@ def addReview(request):
 def companies(request):
     if request.method == "GET":
         context = {}
-        context['companies'] = User.objects.filter(is_superuser=False)
+        context['companies'] = User.objects.filter(is_superuser=False,level=1)
         return render(request,'vimbiso/companies.html',context)
     else:
         context = {}
         obj = request.POST['search']
-        context['companies'] = User.objects.filter(Q(username__icontains=obj) | Q(profile__category__name__icontains=obj) & Q(is_superuser=False))
+        context['companies'] = User.objects.filter(Q(username__icontains=obj) | Q(profile__category__name__icontains=obj) & Q(is_superuser=False) & Q(level=1))
         return render(request,'vimbiso/companies.html',context)
 
 def company_description(request,id=None):
@@ -289,3 +290,18 @@ def response(request):
             data['success'] = False
 
     return JsonResponse(data)
+
+def filter(request):
+    if request.method == "GET":
+        context = {}
+        no_of_reviews = request.GET['numberofreviews']
+        time_period = request.GET.get('timeperiod',None)
+        print(time_period)
+        print(no_of_reviews)
+        if no_of_reviews and time_period:
+            print(User.objects.annotate(number_of_reviews=Count('reviews',filter=Q(reviews__created_at__month__lte=time_period))).filter(is_superuser=False,number_of_reviews__lte=5,level=1))
+            context['companies'] = User.objects.annotate(number_of_reviews=Count('reviews',filter=Q(reviews__created_at__month__lte=time_period))).filter(is_superuser=False,number_of_reviews__lte=5,level=1)      
+        else:
+            context['companies'] = User.objects.annotate(number_of_reviews=Count('reviews')).filter(is_superuser=False,number_of_reviews__lte=5,level=1)
+        print(context['companies'])
+        return render(request,'vimbiso/companies.html',context)

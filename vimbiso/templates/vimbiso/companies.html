@@ -1,81 +1,124 @@
 {% extends 'vimbiso/base.html' %}
 {% load static %}
+{% load companies %}
+
 
 {% block title %}
 <title>Vimbiso - Companies </title>
 {% endblock title %}
 
-{% block head %}
-<link rel="stylesheet" href="{% static 'css/companies.css' %}"> 
-{% endblock head %}
 
 {% block content %}
-
-    <script src="https://unpkg.com/tailwindcss-jit-cdn"></script>
-
-    <!-- Specify a custom Tailwind configuration -->
-    <script type="tailwind-config">
-    {
-    theme: {
-        extend: {
-        colors: {
-            gray: colors.blueGray,
-        }
-        }
+<style>
+    .card-text{
+        color:black;
     }
+    .card-body{
+        padding-top: 0.25rem !important;
     }
-    </script>
-
+    .card-img {
+        border-top-left-radius: 10px !important;
+        border-bottom-left-radius: 10px !important;
+    }
+</style>
     <div class="container-fluid">
-        <div class="row align-items-center mb-5">
+        <div class="row justify-content-end mb-5">
             <h2 class="col-12 d-flex justify-content-center p-3" style="color:var(--red);font-size: 2em;"><strong>Companies</strong></h1>
-            {% for i in companies %}
-            <div class="col-sm-12 col-lg-12 col-md-12 p-3">
-                <a href="{% url 'vimbiso:company_description' i.id %}">
-                    <div class="h-full" >
-                        <!-- Card -->
-                        <div class="max-w-2xl mx-auto metallic-red-bg shadow-lg rounded-lg" style="border:4px solid var(--yellow);">
-                            <div class="px-6 py-5">
-                                <div class="flex items-start">
-                                    <!-- Icon -->
-                                    <img class="fill-current flex-shrink-0 mr-5" style="border:2px solid var(--green);" src="{{i.profile.image.url}}" width="150px" height="200px">
-                                    <!-- Card content -->
-                                    <div class="flex-grow truncate">
-                                        <!-- Card header -->
-                                        <div class="w-full sm:flex justify-between items-center mb-3">
-                                            <!-- Title -->
-                                            <h2 class="text-2xl leading-snug font-extrabold text-gray-50 truncate mb-1 sm:mb-0">{{i.username}}</h2>
-                                            <!-- Like and comment buttons -->
-                                            <div class="flex-shrink-0 flex items-center space-x-3 sm:ml-2">
-                                                <button class="flex items-center text-left text-sm font-medium text-indigo-100 hover:text-white group focus:outline-none focus-visible:border-b focus-visible:border-indigo-100">
-                                                    <i class="fas fa-map-marker-alt"></i>&nbsp
-                                                    <span> {{i.address}} </span>
-                                                </button>
-                                                <button class="flex items-center text-left text-sm font-medium text-indigo-100 hover:text-white group focus:outline-none focus-visible:border-b focus-visible:border-indigo-100">
-                                                    <i class="fas fa-phone-square"></i>&nbsp
-                                                    <span> {{i.contact}} </span>
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <!-- Card body -->
-                                        <div class="flex items-end justify-between whitespace-normal">
-                                            <!-- Paragraph -->
-                                            <div class="max-w-md text-indigo-100">
-                                                <p class="mb-2 text">{{i.profile.description}}</p>
-                                            </div>
-                                            <!-- More link -->
-                                            <a class="flex-shrink-0 flex items-center justify-center text-indigo-600 w-10 h-10 rounded-full bg-gradient-to-b from-indigo-50 to-indigo-100 hover:from-white hover:to-indigo-50 focus:outline-none focus-visible:from-white focus-visible:to-white transition duration-150 ml-2" href="#0">
-                                                <span class="block font-bold"><span class="sr-only">Read more</span> <i class="fas fa-info metallic-green"></i> </span>
-                                            </a>
-                                        </div>
-                                    </div>
+                <div class="col-sm-12 col-lg-5 col-md-5 p-3 d-flex justify-content-center align-items-start">
+                        <div class="card" style="min-width: 16rem !important;">
+                            <ul class="list-group list-group-flush">
+                              <li class="list-group-item">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+                                    <label class="form-check-label" for="exampleRadios1">
+                                      All 
+                                    </label>
                                 </div>
-                            </div>
+                              </li>
+                              
+                              <li class="list-group-item">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+                                    <label class="form-check-label" for="exampleRadios1">
+                                         <a href="{% url 'vimbiso:filter' %}?numberofreviews=5">5+ </a>
+                                    </label>
+                                </div>
+                              </li>
+                              <li class="list-group-item">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+                                    <label class="form-check-label" for="exampleRadios1">
+                                      10+
+                                    </label>
+                                    {% if request.GET %}
+                                        {% for key, value in request.GET.items %}
+                                        <a href="{% url 'vimbiso:filter' %}?{{key}}={{value}}&timeperiod=1">5+ </a>
+                                        {% endfor %}
+                                    {% endif %}
+                                    
+                                </div>
+                              </li>
+                              <li class="list-group-item">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+                                    <label class="form-check-label" for="exampleRadios1">
+                                      25+
+                                    </label>
+                                </div>
+                              </li>
+                            </ul>
+                          </div>
+                        
+                        
+                        
+                </div>
+                <div class="col-sm-12 col-lg-7 col-md-7 p-3 ">
+                {% for i in companies %}
+                {%  average i as number %}
+                <a href="{% url 'vimbiso:company_description' i.id %}" class="d-flex justify-content-center">
+                    {% if number >= 4 %}
+                        <div class="card mb-3 review-good" style="width: 540px;background-color:#e9e9ed;height: 219px;padding:0px !important">
+                    {% elif number <= 4 and number >= 2.5 %}
+                        <div class="card mb-3 review-medium" style="width: 540px;background-color:#e9e9ed;height: 219px;padding:0px !important">
+                    {% else %}
+                        <div class="card mb-3 review-bad" style="width: 540px;background-color:#e9e9ed;height: 219px;padding:0px !important">
+                    {% endif %}
+                   
+                    <div class="row no-gutters">
+                      <div class="col-md-4">
+                        <img src="{{i.profile.image.url}}" class="card-img" alt="..." width="150" height="209">
+                      </div>
+                      <div class="col-md-8">
+                        <div class="card-body">
+                          <h5 class="card-title" style="color:#1b3d81">{{i.username}}</h5>
+                          <p class="card-text"><i class="fas fa-map-marker-alt"></i> {{i.address}}</p>
+                          <p class="card-text"><i class="fas fa-phone"></i> {{i.contact}}</p>
+                          <p class="card-text mb-2">VimbisoScore: {%  average i %}<br>
+                            
+                            {% if number >= 4 %}
+                                {% for x in number|times %}
+                                    <span class="fa fa-star metallic-green"></span>
+                                {% endfor %}
+                            {% elif number <= 4 and number >= 2.5 %}
+                                {% for x in number|times %}
+                                    <span class="fa fa-star metallic-yellow"></span>
+                                {% endfor %}
+                            {% elif not number %}
+                                    <p style="color:var(--red)">Not rated yet</p>
+                            {% else %}
+                                {% for x in number|times %}
+                                    <span class="fa fa-star metallic-red"></span>
+                                {% endfor %}
+                            {% endif %}
+                          </p>
                         </div>
+                      </div>
                     </div>
+                  </div>
                 </a>
+                {% endfor %}
             </div>
-            {% endfor %}
+                    
             
         </div>
     </div>
