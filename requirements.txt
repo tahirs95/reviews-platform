@@ -100,7 +100,6 @@ pycodestyle==2.5.0
 pycountry==20.7.3
 pycparser==2.20
 pyflakes==2.1.1
-PyJWT==2.3.0
 pylint==2.4.4
 pylint-django==2.0.13
 pylint-plugin-utils==0.6
