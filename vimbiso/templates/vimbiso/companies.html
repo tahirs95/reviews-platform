@@ -12,19 +12,34 @@
 <style>
     .card-text{
         color:black;
+        margin-bottom:0px;
     }
     .card-body{
         padding-top: 0.25rem !important;
     }
     .card-img {
         border-top-left-radius: 10px !important;
-        border-bottom-left-radius: 10px !important;
+    }
+    .card-title{
+      margin-bottom:2px;
+    }
+    .text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2; /* number of lines to show */
+              line-clamp: 2; 
+      -webkit-box-orient: vertical;
+    }
+    .card{
+      width: inherit !important;
+      
     }
 </style>
     <div class="container-fluid">
         <div class="row justify-content-end mb-5">
             <h2 class="col-12 d-flex justify-content-center p-3" style="color:var(--red);font-size: 2em;"><strong>Companies</strong></h1>
-                <div class="col-sm-12 col-lg-5 col-md-5 p-3 d-flex justify-content-center align-items-start">
+                <div class="col-sm-12 col-lg-5 col-md-5 p-3">
                         <div class="card" style="min-width: 16rem !important;">
                             <ul class="list-group list-group-flush">
                               <li class="list-group-item">
@@ -75,26 +90,26 @@
                 <div class="col-sm-12 col-lg-7 col-md-7 p-3 ">
                 {% for i in companies %}
                 {%  average i as number %}
-                <a href="{% url 'vimbiso:company_description' i.id %}" class="d-flex justify-content-center">
+                <a href="{% url 'vimbiso:company_description' i.id %}" class="d-flex justify-content-center" style="width: inherit;">
                     {% if number >= 4 %}
-                        <div class="card mb-3 review-good" style="width: 540px;background-color:#e9e9ed;height: 219px;padding:0px !important">
+                        <div class="card mb-3 review-good" style="background-color:#e9e9ed;padding:0px !important">
                     {% elif number <= 4 and number >= 2.5 %}
-                        <div class="card mb-3 review-medium" style="width: 540px;background-color:#e9e9ed;height: 219px;padding:0px !important">
+                        <div class="card mb-3 review-medium" style="background-color:#e9e9ed;padding:0px !important">
                     {% else %}
-                        <div class="card mb-3 review-bad" style="width: 540px;background-color:#e9e9ed;height: 219px;padding:0px !important">
+                        <div class="card mb-3 review-bad" style="background-color:#e9e9ed;padding:0px !important">
                     {% endif %}
                    
-                    <div class="row no-gutters">
+                    <div class="row no-gutters border-bottom">
                       <div class="col-md-4">
-                        <img src="{{i.profile.image.url}}" class="card-img" alt="..." width="150" height="209">
+                        <img src="{{i.profile.image.url}}" class="card-img" alt="..." width="150" height="220">
                       </div>
                       <div class="col-md-8">
                         <div class="card-body">
                           <h5 class="card-title" style="color:#1b3d81">{{i.username}}</h5>
                           <p class="card-text"><i class="fas fa-map-marker-alt"></i> {{i.address}}</p>
-                          <p class="card-text"><i class="fas fa-phone"></i> {{i.contact}}</p>
-                          <p class="card-text mb-2">VimbisoScore: {%  average i %}<br>
-                            
+                          <p class="card-text"><i class="fas fa-phone"></i> {{i.contact}} &nbsp <span class="pull-right"><i class="fas fa-envelope"></i> {{i.email}}</span></p>
+                          <p class="card-text mb-2">Total Reviews:{% total_reviews i %}  &nbsp <span class="pull-right">VimbisoScore: <strong>{%  average i %}</strong></span><p>
+                            <p class="text-center">
                             {% if number >= 4 %}
                                 {% for x in number|times %}
                                     <span class="fa fa-star metallic-green"></span>
@@ -111,12 +126,22 @@
                                 {% endfor %}
                             {% endif %}
                           </p>
+                          <p class="card-text text">{{i.profile.description}}</p>
+                          
                         </div>
+                      </div>
+                    </div>
+                    <div style="width:25%;">
+                      <div class="d-flex flex-row">
+                      {% for tag in i.profile.tags.all %}
+                        <p class="text-center btn bright-green-bg m-2" style="border-radius:12px;color:white">{{ tag.tag }}</p>
+                      {% endfor %}
                       </div>
                     </div>
                   </div>
                 </a>
                 {% endfor %}
+                
             </div>
                     
             

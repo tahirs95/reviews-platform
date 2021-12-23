@@ -15,7 +15,7 @@ class BusinessProfile(models.Model):
     image = models.ImageField(upload_to="media",default=None)
     description = models.TextField(null=True, blank=True)
     verified =  models.BooleanField(default=False)
-    category = models.ManyToManyField("vimbiso.Category", related_name="company")
+    category = models.ManyToManyField("vimbiso.Category", related_name="category")
     tags = models.ManyToManyField("vimbiso.Tags", related_name="tag_company")
     
     def __str__(self):

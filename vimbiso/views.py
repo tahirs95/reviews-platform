@@ -211,8 +211,13 @@ def addReview(request):
 def companies(request):
     if request.method == "GET":
         context = {}
-        context['companies'] = User.objects.filter(is_superuser=False,level=1)
-        return render(request,'vimbiso/companies.html',context)
+        _company_category = request.GET.get('category',None)
+        if _company_category:
+            context['companies'] = User.objects.filter(is_superuser=False,level=1,profile__category=Category.objects.get(id=_company_category)).distinct()
+            return render(request,'vimbiso/companies.html',context)
+        else:
+            context['companies'] = User.objects.filter(is_superuser=False,level=1)
+            return render(request,'vimbiso/companies.html',context)
     else:
         context = {}
         obj = request.POST['search']

@@ -13,3 +13,8 @@ def average(user):
 @register.filter(name='times') 
 def times(number):
     return range(int(number))
+
+@register.simple_tag
+def total_reviews(user):
+    total = Reviews.objects.filter(company=user).count()
+    return total

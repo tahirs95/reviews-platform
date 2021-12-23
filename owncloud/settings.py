@@ -161,11 +161,31 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
+PROJECT_ROOT = (os.path.dirname(os.path.abspath(__file__)))
+GOOGLE_APPLICATION_CREDENTIALS = "GOOGLE_APPLICATION_CREDENTIALS"
+
+import os
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.join(PROJECT_ROOT,'credentials.json')
+
+from .gcloudconf import *
+
+GS_PROJECT_ID = 'vimbiso'
+
+
+GS_STATIC_BUCKET_NAME = 'vimbiso_webapplication'
+GS_BUCKET_NAME = 'vimbiso_webapplication'
+GS_MEDIA_BUCKET_NAME = 'vimbiso_webapplication' 
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_ROOT, 'static'),
+    os.path.join(PROJECT_ROOT, 'static' , 'new_static'),
+    os.path.join(PROJECT_ROOT, 'media'),
+)
+DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATIC_URL = '/static/'
-MEDIA_URL = "/media/"
+MEDIA_URL = 'https://storage.googleapis.com/vimbiso_webapplication/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
     # Extra lookup directories for collectstatic to find static files
