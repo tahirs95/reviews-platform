@@ -28,7 +28,7 @@
             </div>
             <div class="col-6 cover-search ml-5">
                 <div id="search">
-                    <form action="{% url 'vimbiso:companies' %}" method="POST">
+                    <form action="{% url 'vimbiso:companies' 0 %}" method="POST">
                         {% csrf_token %}
                         <fieldset class="clearfix mb-0">
                             <input type="search" name="search" placeholder="Company or category">

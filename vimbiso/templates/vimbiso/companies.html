@@ -37,55 +37,117 @@
     }
 </style>
     <div class="container-fluid">
-        <div class="row justify-content-end mb-5">
+        <div class="row justify-content-center mb-5 pl-5 pr-5">
             <h2 class="col-12 d-flex justify-content-center p-3" style="color:var(--red);font-size: 2em;"><strong>Companies</strong></h1>
-                <div class="col-sm-12 col-lg-5 col-md-5 p-3">
-                        <div class="card" style="min-width: 16rem !important;">
-                            <ul class="list-group list-group-flush">
-                              <li class="list-group-item">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                                    <label class="form-check-label" for="exampleRadios1">
-                                      All 
-                                    </label>
-                                </div>
-                              </li>
-                              
-                              <li class="list-group-item">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                                    <label class="form-check-label" for="exampleRadios1">
-                                         <a href="{% url 'vimbiso:filter' %}?numberofreviews=5">5+ </a>
-                                    </label>
-                                </div>
-                              </li>
-                              <li class="list-group-item">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                                    <label class="form-check-label" for="exampleRadios1">
-                                      10+
-                                    </label>
-                                    {% if request.GET %}
-                                        {% for key, value in request.GET.items %}
-                                        <a href="{% url 'vimbiso:filter' %}?{{key}}={{value}}&timeperiod=1">5+ </a>
-                                        {% endfor %}
-                                    {% endif %}
-                                    
-                                </div>
-                              </li>
-                              <li class="list-group-item">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                                    <label class="form-check-label" for="exampleRadios1">
-                                      25+
-                                    </label>
-                                </div>
-                              </li>
-                            </ul>
-                          </div>
+                <div class="col-sm-12 col-lg-3 col-md-3">
+                    <h3 class="text-center"><b>Filter By</b></h3>
+                      <form method="GET" action="{% url 'vimbiso:companies' id %}" id="search-form">
+                        <div class="card mb-3" style="min-width: 16rem !important;border:3px solid var(--green);border-radius:10px">
+                          <ul class="list-group list-group-flush">
+                            <li class="list-group-item text-center" style="background-color:var(--green);color:white">
+                              <h5 class="m-0"><strong>No. of reviews</strong></h5>
+                            </li>
+                            <li class="list-group-item">
+                              <div class="form-check">
+                                  <input class="form-check-input" type="radio" name="numberofreviews" id="exampleRadios1" value="all" >
+                                  <label class="form-check-label" for="exampleRadios1">
+                                    All 
+                                  </label>
+                              </div>
+                            </li>
+                            
+                            <li class="list-group-item">
+                              <div class="form-check">
+                                  <input class="form-check-input" type="radio" name="numberofreviews" id="exampleRadios1" value="5" checked>
+                                  <label class="form-check-label" for="exampleRadios1">5+
+                                  </label>
+                              </div>
+                            </li>
+                            <li class="list-group-item">
+                              <div class="form-check">
+                                  <input class="form-check-input" type="radio" name="numberofreviews" id="exampleRadios1" value="10" >
+                                  <label class="form-check-label" for="exampleRadios1">10+
+                                  </label>
+                              </div>
+                            </li>
+                            <li class="list-group-item">
+                              <div class="form-check">
+                                  <input class="form-check-input" type="radio" name="numberofreviews" id="exampleRadios1" value="25" >
+                                  <label class="form-check-label" for="exampleRadios1">25+
+                                  </label>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
                         
+                        <div class="card mb-3" style="min-width: 16rem !important;border:3px solid var(--green);border-radius:10px">
+                          <ul class="list-group list-group-flush">
+                            <li class="list-group-item text-center" style="background-color:var(--green);color:white">
+                              <h5 class="m-0"><strong>Company status</strong></h5>
+                            </li>
+                            
+                            <li class="list-group-item">
+                              <div class="form-check">
+                                  <input class="form-check-input" type="radio" name="status" id="exampleRadios1" value="1" checked>
+                                  <label class="form-check-label" for="exampleRadios1">Claimed
+                                  </label>
+                                  <p>List companies that have a Trustpilot account but we have no records of them asking their customers for reviews.</p>
+                              </div>
+                            </li>
+                            <li class="list-group-item">
+                              <div class="form-check">
+                                  <input class="form-check-input" type="radio" name="status" id="exampleRadios1" value="2" >
+                                  <label class="form-check-label" for="exampleRadios1">Unclaimed
+                                  </label>
+                                  <p>List companies that haven’t claimed their Trustpilot account</p>
+                              </div>
+                            </li>
+                            
+                            <li class="list-group-item">
+                              <div class="form-check">
+                                  <input class="form-check-input" type="radio" name="status" id="exampleRadios1" value="3" >
+                                  <label class="form-check-label" for="exampleRadios1">Asking for reviews
+                                  </label>
+                                  <p>List companies that are regularly asking their customers for reviews — whether positive or negative.</p>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
                         
+                        <div class="card" style="min-width: 16rem !important;border:3px solid var(--green);border-radius:10px">
+                          <ul class="list-group list-group-flush">
+                            <li class="list-group-item text-center" style="background-color:var(--green);color:white">
+                              <h5 class="m-0"><strong>Time Period</strong></h5>
+                            </li>
+                            
+                            <li class="list-group-item">
+                              <div class="form-check">
+                                  <input class="form-check-input" type="radio" name="timeperiod" id="exampleRadios1" value="1">
+                                  <label class="form-check-label" for="exampleRadios1">1 month
+                                  </label>
+                              </div>
+                            </li>
+                            <li class="list-group-item">
+                              <div class="form-check">
+                                  <input class="form-check-input" type="radio" name="timeperiod" id="exampleRadios1" value="2" >
+                                  <label class="form-check-label" for="exampleRadios1">6 months
+                                  </label>
+                                  
+                              </div>
+                            </li>
+                            
+                            <li class="list-group-item">
+                              <div class="form-check">
+                                  <input class="form-check-input" type="radio" name="timeperiod" id="exampleRadios1" value="3" checked>
+                                  <label class="form-check-label" for="exampleRadios1">12 months
+                                  </label>
+                              </div>
+                            </li>
+
+                          </ul>
+                        </div>
                         
+                      </form>
                 </div>
                 <div class="col-sm-12 col-lg-7 col-md-7 p-3 ">
                 {% for i in companies %}
@@ -101,14 +163,23 @@
                    
                     <div class="row no-gutters border-bottom">
                       <div class="col-md-4">
-                        <img src="{{i.profile.image.url}}" class="card-img" alt="..." width="150" height="220">
+                        <img src="{{i.profile.image.url}}" class="card-img" alt="..." width="150" height="240">
                       </div>
                       <div class="col-md-8">
                         <div class="card-body">
-                          <h5 class="card-title" style="color:#1b3d81">{{i.username}}</h5>
+                          <h3 class="card-title" style="color:#1b3d81">{{i.username}}</h3>
+                          <p class="card-text">
+                            {% for x in i.profile.category.all %}
+                              {% if forloop.last %}
+                              <i class="fas fa-chevron-circle-right metallic-green"></i> {{x}}
+                              {% else %}
+                              <i class="fas fa-chevron-circle-right metallic-green"></i> {{x}} -&nbsp
+                              {% endif %}
+                            {% endfor %}
+                            </p>
                           <p class="card-text"><i class="fas fa-map-marker-alt"></i> {{i.address}}</p>
                           <p class="card-text"><i class="fas fa-phone"></i> {{i.contact}} &nbsp <span class="pull-right"><i class="fas fa-envelope"></i> {{i.email}}</span></p>
-                          <p class="card-text mb-2">Total Reviews:{% total_reviews i %}  &nbsp <span class="pull-right">VimbisoScore: <strong>{%  average i %}</strong></span><p>
+                          <p class="card-text mb-2">Total Reviews: <strong>{% total_reviews i %}</strong>  &nbsp <span class="pull-right">VimbisoScore: <strong>{%  average i %}</strong></span><p>
                             <p class="text-center">
                             {% if number >= 4 %}
                                 {% for x in number|times %}
@@ -147,4 +218,21 @@
             
         </div>
     </div>
+<script>
+  $('input[type=radio][name=numberofreviews]').change(function() {
+    if (this.value) {
+        $('#search-form').submit();
+    }
+  });
+  $('input[type=radio][name=status]').change(function() {
+    if (this.value) {
+        $('#search-form').submit();
+    }
+  });
+  $('input[type=radio][name=timeperiod]').change(function() {
+    if (this.value) {
+        $('#search-form').submit();
+    }
+  });
+</script>
 {% endblock %}

@@ -133,7 +133,7 @@
                                 <div class="message from"><span class="response"><strong style="text-transform: uppercase;">{{r.company.username}}: </strong></span>  {{r.response}}</div>
                             </div>
                             {% else %}
-                                {% if request.user.subscription.is_active %}
+                                {% if subscription %}
                                 <div  class="answers mb-5">
                                     <i class="fas fa-sort-down fa-2x"></i>
                                     <button type="button" class="btn mt-5" onclick="respond('{{r.id}}')" style="margin-top: 20px;background:linear-gradient(to right, #cb2d3e, #ef473a);color:white" data-toggle="modal" data-target="#responseModal">

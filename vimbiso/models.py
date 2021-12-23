@@ -17,6 +17,10 @@ class BusinessProfile(models.Model):
     verified =  models.BooleanField(default=False)
     category = models.ManyToManyField("vimbiso.Category", related_name="category")
     tags = models.ManyToManyField("vimbiso.Tags", related_name="tag_company")
+    status = models.IntegerField(blank=True,null=True)
+    #1 for claimed
+    #2 for uncliamed
+    #3 for AskingReviews
     
     def __str__(self):
         return self.user.username
@@ -58,13 +62,14 @@ class Reviews(models.Model):
     contact = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
     purchased_item = models.CharField(max_length=100)
-    item_counter = models.IntegerField(default=0)
+    item_counter = models.IntegerField(default=0,null=True,blank=True)
     date_of_purchase = models.DateField()
     branch_location = models.CharField(max_length=100)
     review = models.TextField()
     ratings = models.DecimalField(max_digits=3,decimal_places=2)
+    type_of_purchase = models.CharField(max_length=100,null=True,blank=True)
     resolved = models.BooleanField(default=False)
-    response = models.TextField()
+    response = models.TextField(null=True,blank=True)
     is_resolved =  models.BooleanField(default=False)
     company = models.ForeignKey(User, on_delete=models.CASCADE,related_name='reviews')
     created_at = models.DateTimeField(auto_now_add=True,null=True)

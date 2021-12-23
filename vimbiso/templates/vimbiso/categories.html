@@ -19,7 +19,7 @@
                     <h4 class="p-3" style="background-color:var(--red);color:white">Categories</h4>
                     {% for c in categories %}
                         {% if not c.parent %}
-                        <a href="{% url 'vimbiso:companies' %}?category={{c.id}}" style="text-decoration:none;color:black">{{c.name}}</a>
+                        <a href="{% url 'vimbiso:companies' c.id %}" style="text-decoration:none;color:black">{{c.name}}</a>
                         <hr>
                         {% endif %}
                     {% endfor %}
@@ -43,12 +43,12 @@
                     {% for c in categories %}
                         {% if not c.parent %}
                             <div class="d-flex justify-content-center col-12 align-items-center border-bottom">
-                                <a href="{% url 'vimbiso:companies' %}?category={{c.id}}" style="text-decoration:none;color:black"><h4><strong>{{c.name}}</strong></h4></a>
+                                <a href="{% url 'vimbiso:companies' c.id %}" style="text-decoration:none;color:black"><h4><strong>{{c.name}}</strong></h4></a>
                                 
                             </div>
                         {% else %}
                                 <div class="col-lg-4 col-sm-4 p-2">
-                                    <a class="text-center btn" href="{% url 'vimbiso:companies' %}?category={{c.id}}" style="text-decoration:none;color:black;border:2px solid var(--red);border-radius:12px">{{c.name}}</a>
+                                    <a class="text-center btn" href="{% url 'vimbiso:companies' c.id %}" style="text-decoration:none;color:black;border:2px solid var(--red);border-radius:12px">{{c.name}}</a>
                                 </div>
                         {% endif %}
                     {% endfor %}

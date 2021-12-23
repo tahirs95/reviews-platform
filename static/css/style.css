@@ -69,7 +69,6 @@ input {
 	margin: 0;
 	outline: none;
 	padding: 0;
-	-webkit-appearance: none;
 }
 
 input[type="search"]::-webkit-search-cancel-button {
@@ -197,6 +196,7 @@ input[type="search"]::-webkit-search-decoration {
 	border-radius: 15px;
 	display: inline-block;
 }
+
 .review-good{
 	background: linear-gradient(#fff,#fff) padding-box, linear-gradient(to right, #56ab2f, #a8e063) border-box;
 	padding: 20px;

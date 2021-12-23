@@ -10,6 +10,7 @@ from django.db.models import Q
 import json
 from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime
+from datetime import date
 from django.utils.timezone import make_aware
 
 
@@ -115,7 +116,17 @@ def business(request):
             context = {}
             getUser = request.user
             context['c'] = getUser
+            if request.user.subscription.is_active:
+                context['subscription'] = True
+            else:
+                context['subscription'] = True
             try:
+                context['total_reviews'] = Reviews.objects.filter(company=getUser).count()
+                context['excellent'] = Reviews.objects.filter(company=getUser,ratings__range=(4,5)).count()
+                context['great'] = Reviews.objects.filter(company=getUser,ratings__range=(3,4)).count()
+                context['average'] = Reviews.objects.filter(company=getUser,ratings__range=(2,3)).count()
+                context['poor'] = Reviews.objects.filter(company=getUser,ratings__range=(1,2)).count()
+                context['bad'] = Reviews.objects.filter(company=getUser,ratings__lte=1).count()
                 context['reviews'] = Reviews.objects.filter(company=getUser)
                 avg_ratings = Reviews.objects.filter(company=getUser).aggregate(Avg('ratings')) or 0 
                 context['avg_ratings'] = avg_ratings['ratings__avg']
@@ -179,8 +190,8 @@ def addReview(request):
         name = request.POST['name']
         company = request.POST['company']
         purchased_item = request.POST['purchased-item']
-        item_counter = request.POST['item-counter']
         date_of_purchase = request.POST['date']
+        type_of_purchase = request.POST['type-of-purchase']
         branch_location = request.POST['branch']
         review = request.POST['review']
         ratings = request.POST['rating']
@@ -198,7 +209,7 @@ def addReview(request):
                 name = name,
                 purchased_item = purchased_item,
                 company = User.objects.get(id=company),
-                item_counter = item_counter,
+                type_of_purchase = type_of_purchase,
                 date_of_purchase = date_of_purchase,
                 branch_location = branch_location,
                 review = review,
@@ -208,15 +219,37 @@ def addReview(request):
             return redirect("vimbiso:index")
 
 
-def companies(request):
+def companies(request,id=None):
     if request.method == "GET":
         context = {}
-        _company_category = request.GET.get('category',None)
-        if _company_category:
-            context['companies'] = User.objects.filter(is_superuser=False,level=1,profile__category=Category.objects.get(id=_company_category)).distinct()
+        context['id'] = id
+        today = date.today()
+        no_of_reviews = request.GET.get('numberofreviews',0)
+        time_period = request.GET.get('timeperiod',None)
+        profile_status = request.GET.get('status',None)
+        print(time_period)
+        print(no_of_reviews)
+        print(profile_status)
+        print(today)
+        
+        if no_of_reviews and time_period and profile_status:
+            context['companies'] = User.objects.annotate(number_of_reviews=Count('reviews',filter=Q(reviews__created_at__week__lte=today.month))).filter(is_superuser=False,number_of_reviews__lte=no_of_reviews,level=1,profile__category=Category.objects.get(id=id))      
             return render(request,'vimbiso/companies.html',context)
+
+        elif no_of_reviews and not time_period and not profile_status:
+            print("Reviews count filter")
+            context['companies'] = User.objects.annotate(number_of_reviews=Count('reviews')).filter(is_superuser=False,number_of_reviews__gte=no_of_reviews,level=1,profile__category=Category.objects.get(id=id))
+            return render(request,'vimbiso/companies.html',context)
+        
+        elif not no_of_reviews and not time_period and profile_status:
+            context['companies'] = User.objects.filter(is_superuser=False,level=1,profile__category=Category.objects.get(id=id),profile__status=profile_status).distinct()
+            return render(request,'vimbiso/companies.html',context)
+        
+        elif not no_of_reviews and time_period and not profile_status:
+            context['companies'] = User.objects.annotate(number_of_reviews=Count('reviews')).filter(is_superuser=False,number_of_reviews__gte=no_of_reviews,level=1,profile__category=Category.objects.get(id=id))
+        
         else:
-            context['companies'] = User.objects.filter(is_superuser=False,level=1)
+            context['companies'] = User.objects.filter(is_superuser=False,profile__category=Category.objects.get(id=id))    
             return render(request,'vimbiso/companies.html',context)
     else:
         context = {}
@@ -296,17 +329,3 @@ def response(request):
 
     return JsonResponse(data)
 
-def filter(request):
-    if request.method == "GET":
-        context = {}
-        no_of_reviews = request.GET['numberofreviews']
-        time_period = request.GET.get('timeperiod',None)
-        print(time_period)
-        print(no_of_reviews)
-        if no_of_reviews and time_period:
-            print(User.objects.annotate(number_of_reviews=Count('reviews',filter=Q(reviews__created_at__month__lte=time_period))).filter(is_superuser=False,number_of_reviews__lte=5,level=1))
-            context['companies'] = User.objects.annotate(number_of_reviews=Count('reviews',filter=Q(reviews__created_at__month__lte=time_period))).filter(is_superuser=False,number_of_reviews__lte=5,level=1)      
-        else:
-            context['companies'] = User.objects.annotate(number_of_reviews=Count('reviews')).filter(is_superuser=False,number_of_reviews__lte=5,level=1)
-        print(context['companies'])
-        return render(request,'vimbiso/companies.html',context)
