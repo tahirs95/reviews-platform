@@ -98,12 +98,33 @@ def categories(request):
     context['categories'] = Category.objects.all()
     return render(request,'vimbiso/categories.html',context)
 
-@login_required
+
 def plans(request):
-    if request.method == "GET":
-        return render(request,'vimbiso/plans.html')
+    if request.method == 'POST':
+        if not request.user.is_authenticated:
+            return redirect("account_login")
+        else:
+            priceID = request.POST["price-id"]
+            print(priceID)
+            success = request.build_absolute_uri(reverse('vimbiso:payment_success'))
+            cancel = request.build_absolute_uri(reverse('vimbiso:payment_cancel'))
+
+            session = stripe.checkout.Session.create(
+                success_url = success,
+                cancel_url = cancel,
+                mode='subscription',
+                customer_email = f"{request.user.email}",
+                line_items=[{
+                    'price': priceID,
+                    'quantity': 1,
+                }],
+            )
+
+            # Redirect to the URL returned on the session
+            return redirect(session.url, code=303)
     else:
-        return redirect("vimbiso:plans")
+        return render(request,'vimbiso/plans.html')
+        
 
 @login_required
 def business(request):
