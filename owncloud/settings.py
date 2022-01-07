@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'vimbiso',    
+    'vimbiso',
+    'import_export',    
 ]
 
 MIDDLEWARE = [
@@ -137,6 +138,7 @@ LOGIN_REDIRECT_URL = "/"  # default to /accounts/profile
 ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_USERNAME_VALIDATORS = None
 
 
 # Internationalization
@@ -169,12 +171,10 @@ os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.join(PROJECT_ROOT,'creden
 
 from .gcloudconf import *
 
-GS_PROJECT_ID = 'vimbiso'
-
-
-GS_STATIC_BUCKET_NAME = 'vimbiso_webapplication'
-GS_BUCKET_NAME = 'vimbiso_webapplication'
-GS_MEDIA_BUCKET_NAME = 'vimbiso_webapplication' 
+GS_PROJECT_ID = 'vimbiso-337512'
+GS_STATIC_BUCKET_NAME = 'vimbiso_bucket'
+GS_BUCKET_NAME = 'vimbiso_bucket'
+GS_MEDIA_BUCKET_NAME = 'vimbiso_bucket' 
 STATICFILES_DIRS = (
     os.path.join(PROJECT_ROOT, 'static'),
     os.path.join(PROJECT_ROOT, 'static' , 'new_static'),
@@ -185,7 +185,7 @@ DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATIC_URL = '/static/'
-MEDIA_URL = 'https://storage.googleapis.com/vimbiso_webapplication/'
+MEDIA_URL = 'https://storage.googleapis.com/vimbiso_bucket/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
     # Extra lookup directories for collectstatic to find static files

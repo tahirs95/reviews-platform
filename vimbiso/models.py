@@ -3,7 +3,9 @@ from django.contrib.auth.models import AbstractUser
 from mptt.models import MPTTModel, TreeForeignKey
 
 class User(AbstractUser):
-    address = models.TextField(null=True, blank=True)
+    country = models.TextField(null=True, blank=True)
+    city = models.TextField(null=True, blank=True)
+    block = models.TextField(null=True, blank=True)
     contact = models.CharField(max_length=25, null=True, blank=True)
     level = models.IntegerField(default=0)
 

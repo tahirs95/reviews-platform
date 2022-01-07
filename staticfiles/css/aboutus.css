@@ -1,0 +1,40 @@
+.body{
+    background-color:#f2f2f5 !important;
+}
+
+.image-circle {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    border-top: 2px dashed var(--red);
+    border-right: 2px dashed var(--red);
+    border-left: 2px dashed var(--green);
+    border-bottom: 2px dashed var(--yellow);
+    padding: 10px;
+    animation: spin 10s infinite linear;
+}
+.image-circle img {
+    animation: spin 10s infinite reverse linear;
+    width: 100%;
+    border-radius: 50%;
+}
+
+.about-heading{
+    font-size: 2.875rem;
+    line-height: 3.75rem;
+    color:black;
+    font-weight: 700;
+}
+.about-description{
+    font-size: 1.125rem;
+    color:black;
+}
+.ceo-img{
+    max-width: 550px;
+    max-height: 600px;
+}
+@keyframes spin {
+    100% {
+        transform: rotate(1turn);
+    }
+}

@@ -39,7 +39,7 @@
     <div class="container-fluid">
         <div class="row justify-content-center mb-5 pl-5 pr-5">
             <h2 class="col-12 d-flex justify-content-center p-3" style="color:var(--red);font-size: 2em;"><strong>Companies</strong></h1>
-                <div class="col-sm-12 col-lg-3 col-md-3">
+              <div class="col-sm-12 col-lg-3 col-md-3">
                     <h3 class="text-center"><b>Filter By</b></h3>
                       <form method="GET" action="{% url 'vimbiso:companies' id %}" id="search-form">
                         <div class="card mb-3" style="min-width: 16rem !important;border:3px solid var(--green);border-radius:10px">
@@ -91,7 +91,7 @@
                                   <input class="form-check-input" type="radio" name="status" id="exampleRadios1" value="1" checked>
                                   <label class="form-check-label" for="exampleRadios1">Claimed
                                   </label>
-                                  <p>List companies that have a Trustpilot account but we have no records of them asking their customers for reviews.</p>
+                                  <p>List companies that have a Vimbiso account but we have no records of them asking their customers for reviews.</p>
                               </div>
                             </li>
                             <li class="list-group-item">
@@ -99,7 +99,7 @@
                                   <input class="form-check-input" type="radio" name="status" id="exampleRadios1" value="2" >
                                   <label class="form-check-label" for="exampleRadios1">Unclaimed
                                   </label>
-                                  <p>List companies that haven’t claimed their Trustpilot account</p>
+                                  <p>List companies that haven’t claimed their Vimbiso account</p>
                               </div>
                             </li>
                             
@@ -150,6 +150,29 @@
                       </form>
                 </div>
                 <div class="col-sm-12 col-lg-7 col-md-7 p-3 ">
+                  <div class="d-flex justify-content-center m-2">
+                    {% if companies.has_other_pages %}
+                        <ul class="pagination">
+                          {% if companies.has_previous %}
+                            <li><a href="?page={{ companies.previous_page_number }}">&laquo;</a></li>
+                          {% else %}
+                            <li class="disabled"><span>&laquo;</span></li>
+                          {% endif %}
+                          {% for i in companies.paginator.page_range %}
+                            {% if companies.number == i %}
+                              <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                            {% else %}
+                              <li><a href="?page={{ i }}">{{ i }}</a></li>
+                            {% endif %}
+                          {% endfor %}
+                          {% if companies.has_next %}
+                            <li><a href="?page={{ users.next_page_number }}">&raquo;</a></li>
+                          {% else %}
+                            <li class="disabled"><span>&raquo;</span></li>
+                          {% endif %}
+                        </ul>
+                    {% endif %}
+                </div>  
                 {% for i in companies %}
                 {%  average i as number %}
                 <a href="{% url 'vimbiso:company_description' i.id %}" class="d-flex justify-content-center" style="width: inherit;">
@@ -163,7 +186,12 @@
                    
                     <div class="row no-gutters border-bottom">
                       <div class="col-md-4">
-                        <img src="{{i.profile.image.url}}" class="card-img" alt="..." width="150" height="240">
+                        {% if i.profile.image %}
+                          <img src="{{i.profile.image.url}}" class="card-img" alt="..." width="150" height="240">
+                        {% else %}
+                          <img src="https://hesolutions.com.pk/wp-content/uploads/2019/01/picture-not-available.jpg" class="card-img" alt="..." width="150" height="240">
+                        {% endif %}
+                        
                       </div>
                       <div class="col-md-8">
                         <div class="card-body">

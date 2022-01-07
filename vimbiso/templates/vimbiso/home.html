@@ -104,7 +104,11 @@
             {% endif %}
             </div>
         </div>
-        
+        {% comment %} <form method="POST" action="{% url 'vimbiso:dataEntry' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="object">
+            <button type="submit" class="btn btn-block">Import Data</button>
+        </form> {% endcomment %}
     </div>
     <!-- Review messages -->
     <script>

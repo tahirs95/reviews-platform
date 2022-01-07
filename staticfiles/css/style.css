@@ -35,6 +35,7 @@ h1{
 }
 body{
     font-family: 'gotham';
+	overflow-x: hidden;
 }
 .cover{
     min-width: 1349px;
@@ -68,7 +69,6 @@ input {
 	margin: 0;
 	outline: none;
 	padding: 0;
-	-webkit-appearance: none;
 }
 
 input[type="search"]::-webkit-search-cancel-button {
@@ -137,9 +137,6 @@ input[type="search"]::-webkit-search-decoration {
 	font-size: 1.125rem;
 }
 
-button {
-	margin: 20px;
-}
 
 .custom-btn {
 	width: 130px;
@@ -158,8 +155,8 @@ button {
 	border: none;
 	letter-spacing: 0.5px;
 	text-transform: capitalize;
-  margin-right:40px;
-  margin-bottom:40px;
+	margin-right:40px;
+	margin-bottom:40px;
 }
 .navbar-light .navbar-nav .nav-link{
 	margin: 20px 5px;
@@ -174,16 +171,38 @@ button {
 	height: fit-content;
 	margin: 20px;
 	color:black;
-	background-color: lightgray;
+	background-color: white;
+}
+.bright-red-bg{
+	background:linear-gradient(to right, #cb2d3e, #ef473a) !important;color:white;
+}
+.bright-green-bg{
+	background:linear-gradient(to right, #093028, #237A57) !important;color:white
+}
+.bright-yellow-bg{
+	background:  linear-gradient(to right, #F7971E,#FFD200 );
 }
 .review-bad{
-	border: 4px solid #a62c2b;
+	background: linear-gradient(#fff,#fff) padding-box, linear-gradient(to right, #cb2d3e, #ef473a) border-box;
+	padding: 20px;
+	border: 5px solid transparent;
+	border-radius: 15px;
+	display: inline-block;
 }
 .review-medium{
-	border: 4px solid #F5D21F;
+	background: linear-gradient(#fff,#fff) padding-box, linear-gradient(to right, #F7971E,#FFD200 ) border-box;
+	padding: 20px;
+	border: 5px solid transparent;
+	border-radius: 15px;
+	display: inline-block;
 }
+
 .review-good{
-	border: 4px solid #296e01;
+	background: linear-gradient(#fff,#fff) padding-box, linear-gradient(to right, #56ab2f, #a8e063) border-box;
+	padding: 20px;
+	border: 5px solid transparent;
+	border-radius: 15px;
+	display: inline-block;
 }
 .propicbox {
 	float: left;
@@ -200,12 +219,7 @@ button {
 	
 }
 
-h1 {
-	font-size: 16px;
-	line-height: 1.5em;
-	font-weight: 400;
-	color: #636972;
-}
+
 
 .reviewername {
 	color: black;
@@ -252,144 +266,23 @@ a, a:visited, a:hover {
 	line-height: 6rem;
 }
 
-.card{
-	min-width: 389px !important;
-}
-
-.card-title{
-	font-size: 2.2rem;
-	line-height: 3rem;
-	color: white;
-	font-weight: bold;
-}
-
-.card-subtitle{
-	font-size: 1.6rem;
-	font-weight: 400;
-	font-style: normal;
-	line-height: 2.4rem;
-	color: white;
-}
-
 .card-header{
-	min-height: 307px;
 	background: transparent;
 }
 .card2{
-	background-color: #F5D21F;
+	border: 5px solid #F5D21F;
+	border-radius: 12px;
 }
 
 .card1{
-	background-color: #B30E16;
-}
+	border: 5px solid #B30E16;
+	border-radius: 12px;
 
+}
 .card3{
-	background-color: #14903F;
-}
-.list-item{
-	height: auto;
-	border-radius: 10px;
-	box-shadow: 0px 5px 30px #000;
-  }
+	border: 5px solid #14903F;
+	border-radius: 12px;
 
-.item{
-	width: 100%;
-	height: max-content;
-	border-top: 1px solid rgba(0,0,0,0.5);
-	display: grid;
-	grid-template-columns: 1fr 6fr 1fr;
-	align-items: center;  
-	color: black;
-	font-size: 1.3rem;
-	position: relative;
-	overflow: hidden;
-}
-
-.item input[type="checkbox"], .item span{
-margin: 0 auto;
-}
-
-.item label, .item span{
-color: rgba(255,255,255,.4);
-}
-
-.item input[type="checkbox"]{
--webkit-appearance: none;
-height: 15px;
-width: 15px;
-border: 2px solid rgba(255,255,255,.4);
-border-radius: 3px;
-outline: none;
-margin: 0 auto;
-transition: .2s all;
-cursor: pointer;
-z-index:2;
-}
-
-.item input[type="checkbox"]:before{
-content: '\f00c';
-position: absolute;
-font-family: fontAwesome;
-font-size: 10px;
-color: rgba(255,255,255,.4);
-opacity: 0;
-color: black;
-}
-
-.list1 .item input[type="checkbox"]:before{
-	content: '\f00c';
-	position: absolute;
-	font-family: fontAwesome;
-	font-size: 10px;
-	color: rgba(255,255,255,.4);
-	opacity: 0;
-	color: rgb(0, 0, 0);
-	}
-
-.item input[type="checkbox"]:checked:before {
-opacity: 1;
-}
-
-.item input[type="checkbox"]:checked {
-	border-color: black; 
-	box-shadow: 0px 0px 8px black; 
-}
-
-.list1 .item input[type="checkbox"]:checked {
-	border-color: rgb(0, 0, 0); 
-	box-shadow: 0px 0px 8px rgb(55, 58, 58); 
-}
-
-.item input[type="checkbox"]:hover {
-transform: scale(1.2);
-}
-
-.item input[type="checkbox"]:checked  ~ label{
-color: white; 
-}
-
-.item input[type="checkbox"]:checked  ~ span{
-	color: black; 
-	animation: animation .5s;
-}
-
-.list1 .item input[type="checkbox"]:checked  ~ span{
-	color: rgb(0, 0, 0); 
-	animation: animation .5s;
-}
-
-.item label:before {
-content: "";
-position: absolute;
-width: 130px;
-height: 100%;
-left:-80px;
-transform: skew(40deg);
-background: rgba(0,0,0,0.1);
-transition: .3s;
-}
-.item input[type="checkbox"]:checked ~ label:before{
-left: 120%;
 }
 @keyframes animation {
 0%{
@@ -444,7 +337,7 @@ left: 120%;
 		transform: translateX(0);
    }
 	100% {
-		transform: translateX(calc(-250px * 7));
+		transform: translateX(calc(-250px * 5));
    }
 }
 .slider {
@@ -476,6 +369,10 @@ left: 120%;
 	animation: scroll 40s linear infinite;
 	display: flex;
 	width: calc(250px * 14);
+}
+.slider .slide-track:hover
+{
+    animation-play-state: paused;
 }
 /* .slider .slide {
 	background: white;
@@ -621,7 +518,7 @@ ul {
   transform: rotate(-6deg);
 }
 .copyright-area{
-  background: #202020;
+  background: linear-gradient(to right, #000000, #434343) !important;
   padding: 25px 0;
 }
 .copyright-text p {
@@ -645,8 +542,7 @@ ul {
 }
 
 .metallic-red-bg{
-	background-color:#B30E16;
-	color:white;
+	background:linear-gradient(to right, #cb2d3e, #ef473a) !important;color:white;border:0px !important;
 }
 
 :root {
@@ -672,3 +568,52 @@ ul {
 .metallic-red{
 	color: #B30E16;
 }
+
+.checkmark__circle {
+	stroke-dasharray: 166;
+	stroke-dashoffset: 166;
+	stroke-width: 2;
+	stroke-miterlimit: 10;
+	stroke: green;
+	fill: none;
+	animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+  }
+  
+  .checkmark {
+	width: 56px;
+	height: 56px;
+	border-radius: 50%;
+	display: block;
+	stroke-width: 2;
+	stroke: green;
+	stroke-miterlimit: 10;
+	margin: 10% auto;
+	box-shadow: inset 0px 0px 0px #7ac142;
+	animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+  }
+  
+  .checkmark__check {
+	transform-origin: 50% 50%;
+	stroke-dasharray: 48;
+	stroke-dashoffset: 48;
+	animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+  }
+  
+  @keyframes stroke {
+	100% {
+	  stroke-dashoffset: 0;
+	}
+  }
+  @keyframes scale {
+	0%, 100% {
+	  transform: none;
+	}
+	50% {
+	  transform: scale3d(1.1, 1.1, 1);
+	}
+  }
+  @keyframes fill {
+	100% {
+	  box-shadow: inset 0px 0px 0px 30px #fff;
+	}
+  }

@@ -12,7 +12,9 @@ from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime
 from datetime import date
 from django.utils.timezone import make_aware
-
+import pandas as pd
+from django.contrib.auth import get_user_model
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 @csrf_exempt
 def webhook_received(request):
@@ -252,25 +254,66 @@ def companies(request,id=None):
         print(no_of_reviews)
         print(profile_status)
         print(today)
-        
+
+        page = request.GET.get('page', 1)
+
         if no_of_reviews and time_period and profile_status:
-            context['companies'] = User.objects.annotate(number_of_reviews=Count('reviews',filter=Q(reviews__created_at__week__lte=today.month))).filter(is_superuser=False,number_of_reviews__lte=no_of_reviews,level=1,profile__category=Category.objects.get(id=id))      
+            list = User.objects.annotate(number_of_reviews=Count('reviews',filter=Q(reviews__created_at__week__lte=today.month))).filter(is_superuser=False,number_of_reviews__lte=no_of_reviews,level=1,profile__category=Category.objects.get(id=id))
+            paginator = Paginator(list, 10)
+            try:
+                list = paginator.page(page)
+            except PageNotAnInteger:
+                list = paginator.page(1)
+            except EmptyPage:
+                list = paginator.page(paginator.num_pages)
+            context['companies'] = list     
             return render(request,'vimbiso/companies.html',context)
 
         elif no_of_reviews and not time_period and not profile_status:
+            list =  User.objects.annotate(number_of_reviews=Count('reviews')).filter(is_superuser=False,number_of_reviews__gte=no_of_reviews,level=1,profile__category=Category.objects.get(id=id))
+            paginator = Paginator(list, 10)
+            try:
+                list = paginator.page(page)
+            except PageNotAnInteger:
+                list = paginator.page(1)
+            except EmptyPage:
+                list = paginator.page(paginator.num_pages)
+            context['companies'] = list  
             print("Reviews count filter")
-            context['companies'] = User.objects.annotate(number_of_reviews=Count('reviews')).filter(is_superuser=False,number_of_reviews__gte=no_of_reviews,level=1,profile__category=Category.objects.get(id=id))
             return render(request,'vimbiso/companies.html',context)
         
         elif not no_of_reviews and not time_period and profile_status:
-            context['companies'] = User.objects.filter(is_superuser=False,level=1,profile__category=Category.objects.get(id=id),profile__status=profile_status).distinct()
+            list =  User.objects.filter(is_superuser=False,level=1,profile__category=Category.objects.get(id=id),profile__status=profile_status).distinct()
+            paginator = Paginator(list, 10)
+            try:
+                list = paginator.page(page)
+            except PageNotAnInteger:
+                list = paginator.page(1)
+            except EmptyPage:
+                list = paginator.page(paginator.num_pages)
+            context['companies'] = list  
             return render(request,'vimbiso/companies.html',context)
         
         elif not no_of_reviews and time_period and not profile_status:
-            context['companies'] = User.objects.annotate(number_of_reviews=Count('reviews')).filter(is_superuser=False,number_of_reviews__gte=no_of_reviews,level=1,profile__category=Category.objects.get(id=id))
-        
+            list =  User.objects.annotate(number_of_reviews=Count('reviews')).filter(is_superuser=False,number_of_reviews__gte=no_of_reviews,level=1,profile__category=Category.objects.get(id=id))
+            paginator = Paginator(list, 10)
+            try:
+                list = paginator.page(page)
+            except PageNotAnInteger:
+                list = paginator.page(1)
+            except EmptyPage:
+                list = paginator.page(paginator.num_pages)
+            context['companies'] = list          
         else:
-            context['companies'] = User.objects.filter(is_superuser=False,profile__category=Category.objects.get(id=id))    
+            list = User.objects.filter(is_superuser=False,profile__category=Category.objects.get(id=id)) 
+            paginator = Paginator(list, 10)
+            try:
+                list = paginator.page(page)
+            except PageNotAnInteger:
+                list = paginator.page(1)
+            except EmptyPage:
+                list = paginator.page(paginator.num_pages)
+            context['companies'] = list  
             return render(request,'vimbiso/companies.html',context)
     else:
         context = {}
@@ -350,3 +393,43 @@ def response(request):
 
     return JsonResponse(data)
 
+def dataEntry(request):
+    if request.method == "POST":
+        obj = request.FILES["object"]
+        print(obj)
+        df = pd.read_excel(obj)
+        print(df)
+        User = get_user_model()
+        for i in df.index:
+            try:
+                password = User.objects.make_random_password()
+                email = df['email'][i]
+                company = df['company'][i]
+                country = df['country'][i]
+                city = df['city'][i]
+                block = df['block'][i]
+                contact = df['contact'][i]
+                category = df['category'][i]
+                newUser = User.objects.create(
+                    email = email.strip(),
+                    username = company.strip(),
+                    contact = contact.strip(),
+                    country = country.strip(),
+                    city = city.strip(),
+                    block = block.strip(),
+                    level = 1,
+                    password = password,
+                )
+                print(newUser)
+                newProfile = BusinessProfile.objects.create(
+                    user = newUser,
+                    status = 2,
+                )
+                try:
+                    c = Category.objects.get( name = category.strip())
+                except Category.DoesNotExist:
+                    c = Category.objects.create(name = category.strip())
+                newProfile.category.add(c)
+            except:
+                pass
+        return redirect("vimbiso:index")
