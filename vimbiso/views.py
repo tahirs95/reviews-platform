@@ -15,6 +15,10 @@ from django.utils.timezone import make_aware
 import pandas as pd
 from django.contrib.auth import get_user_model
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+import os
+from django.conf import settings
+import re
+from django.contrib.staticfiles.storage import staticfiles_storage
 
 @csrf_exempt
 def webhook_received(request):
@@ -90,6 +94,28 @@ def webhook_received(request):
 
 def index(request):
     context = {}
+    l = os.listdir(os.path.join(settings.STATIC_ROOT, "office"))
+    for i in l:
+        try:
+            name = i
+            print(name)
+            file = open(os.path.join(settings.STATIC_ROOT, f'office/{i}'))
+            try:
+                i = re.sub(".png", "", i)
+            except:
+                i = re.sub(".jpg", "", i)
+            try:
+                company = User.objects.filter(email=i.strip()).first()
+                B = BusinessProfile.objects.get(
+                    id = company.id 
+                    )
+                B.image = None
+                B.save()
+                print(B)
+            except:
+                pass
+        except User.DoesNotExist:
+            pass
     context['categories'] = Category.objects.all()[:12]
     context['company'] = User.objects.filter(is_superuser=False)
     context['reviews'] = Reviews.objects.all().order_by('created_at')
@@ -407,7 +433,6 @@ def dataEntry(request):
                 company = df['company'][i]
                 country = df['country'][i]
                 city = df['city'][i]
-                block = df['block'][i]
                 contact = df['contact'][i]
                 category = df['category'][i]
                 newUser = User.objects.create(
@@ -416,7 +441,6 @@ def dataEntry(request):
                     contact = contact.strip(),
                     country = country.strip(),
                     city = city.strip(),
-                    block = block.strip(),
                     level = 1,
                     password = password,
                 )

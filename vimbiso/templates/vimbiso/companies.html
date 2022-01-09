@@ -13,6 +13,7 @@
     .card-text{
         color:black;
         margin-bottom:0px;
+        font-size:12px;
     }
     .card-body{
         padding-top: 0.25rem !important;
@@ -32,8 +33,11 @@
       -webkit-box-orient: vertical;
     }
     .card{
-      width: inherit !important;
-      
+      width: 85% !important;
+    }
+    .card-img {
+      width: 100%;
+      border-radius: 10px;
     }
 </style>
     <div class="container-fluid">
@@ -184,18 +188,18 @@
                         <div class="card mb-3 review-bad" style="background-color:#e9e9ed;padding:0px !important">
                     {% endif %}
                    
-                    <div class="row no-gutters border-bottom">
-                      <div class="col-md-4">
+                    <div class="row no-gutters">
+                      <div class="col-md-3 d-flex align-items-center justify-content-center">
                         {% if i.profile.image %}
-                          <img src="{{i.profile.image.url}}" class="card-img" alt="..." width="150" height="240">
+                          <img src="{{i.profile.image.url}}" class="card-img" alt="..." width="80" height="90">
                         {% else %}
-                          <img src="https://hesolutions.com.pk/wp-content/uploads/2019/01/picture-not-available.jpg" class="card-img" alt="..." width="150" height="240">
+                          <img src="https://hesolutions.com.pk/wp-content/uploads/2019/01/picture-not-available.jpg" class="card-img" alt="..." style="width:100px !important" height="100">
                         {% endif %}
                         
                       </div>
-                      <div class="col-md-8">
+                      <div class="col-md-9">
                         <div class="card-body">
-                          <h3 class="card-title" style="color:#1b3d81">{{i.username}}</h3>
+                          <p class="card-title" style="color:#1b3d81;font-size:18px">{{i.username}}</p>
                           <p class="card-text">
                             {% for x in i.profile.category.all %}
                               {% if forloop.last %}
@@ -205,26 +209,35 @@
                               {% endif %}
                             {% endfor %}
                             </p>
-                          <p class="card-text"><i class="fas fa-map-marker-alt"></i> {{i.address}}</p>
+                          <p class="card-text"><i class="fas fa-map-marker-alt"></i> {{i.block}} {{i.city}}, {{i.country}}</p>
                           <p class="card-text"><i class="fas fa-phone"></i> {{i.contact}} &nbsp <span class="pull-right"><i class="fas fa-envelope"></i> {{i.email}}</span></p>
-                          <p class="card-text mb-2">Total Reviews: <strong>{% total_reviews i %}</strong>  &nbsp <span class="pull-right">VimbisoScore: <strong>{%  average i %}</strong></span><p>
+                          <p class="card-text">Total Reviews: <strong>{% total_reviews i %}</strong>  &nbsp <span class="pull-right">VimbisoScore: <strong>{%  average i %}</strong></span></p>
                             <p class="text-center">
                             {% if number >= 4 %}
                                 {% for x in number|times %}
                                     <span class="fa fa-star metallic-green"></span>
+                                    {% if forloop.last %}
+                                      </p>
+                                    {% endif %}
                                 {% endfor %}
                             {% elif number <= 4 and number >= 2.5 %}
                                 {% for x in number|times %}
                                     <span class="fa fa-star metallic-yellow"></span>
+                                    {% if forloop.last %}
+                                      </p>
+                                    {% endif %}
                                 {% endfor %}
                             {% elif not number %}
-                                    <p style="color:var(--red)">Not rated yet</p>
+                                    <p style="color:var(--red)" class="m-0">Not rated yet</p>
                             {% else %}
                                 {% for x in number|times %}
                                     <span class="fa fa-star metallic-red"></span>
                                 {% endfor %}
+                                {% if forloop.last %}
+                                      </p>
+                                    {% endif %}
                             {% endif %}
-                          </p>
+                          
                           <p class="card-text text">{{i.profile.description}}</p>
                           
                         </div>

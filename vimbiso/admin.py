@@ -49,10 +49,11 @@ class UserAdmin(UserAdmin,ImportExportModelAdmin):
     # resource_class = CompanyResource
 
 
-
+class CategoryAdmin(admin.ModelAdmin):
+    search_fields = ['user__username','category__name',]
 
 admin.site.register(Category)
 admin.site.register(Reviews)
 admin.site.register(Tags)
-admin.site.register(BusinessProfile)
+admin.site.register(BusinessProfile,CategoryAdmin)
 admin.site.register(Subscription)
